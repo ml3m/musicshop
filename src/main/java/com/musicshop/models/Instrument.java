@@ -14,6 +14,7 @@ public class Instrument extends MusicItem {
         this.type = type;
     }
 
+    @Override
     public String getType() {
         return type;
     }

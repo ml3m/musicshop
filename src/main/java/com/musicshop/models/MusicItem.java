@@ -8,13 +8,18 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type"  // This is the key for the subtype
 )
+
 @JsonSubTypes({
     @JsonSubTypes.Type(value = Album.class, name = "album"),
     @JsonSubTypes.Type(value = Instrument.class, name = "instrument")
 })
+
 public abstract class MusicItem {
     protected String name;
     protected double price;
+
+    public MusicItem() {
+    }
 
     // Constructor
     public MusicItem(String name, double price) {
@@ -34,4 +39,6 @@ public abstract class MusicItem {
     public String toString() {
         return "Name: " + name + ", Price: $" + price;
     }
+
+    public abstract String getType();
 }

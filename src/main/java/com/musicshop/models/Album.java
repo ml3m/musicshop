@@ -25,6 +25,7 @@ public class Album extends MusicItem {
         return super.getPrice();
     }
 
+    @Override
     public String getType() {
         return type;
     }
