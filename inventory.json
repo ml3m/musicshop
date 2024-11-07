@@ -1,0 +1,25 @@
+[ {
+  "name" : "Guitar big",
+  "price" : 899.0,
+  "type" : "Instrument"
+}, {
+  "name" : "Goodway",
+  "price" : 90.0,
+  "artist" : "YungLean",
+  "type" : "album",
+  "year" : 2010
+}, {
+  "name" : "mlem",
+  "price" : 199.0,
+  "artist" : "mlemtatika",
+  "type" : "album",
+  "year" : 2000
+}, {
+  "name" : "piano",
+  "price" : 2000.0,
+  "type" : "Instrument"
+}, {
+  "name" : "trumpet",
+  "price" : 3789.0,
+  "type" : "instrument"
+} ]

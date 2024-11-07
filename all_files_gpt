@@ -1,0 +1,543 @@
+package com.musicshop.models;
+
+public class AlbumTest {
+}
+package com.musicshop.models;
+
+public class InstrumentTest {
+}
+package com.musicshop.services;
+
+import com.musicshop.models.Album;
+import com.musicshop.models.Instrument;
+import com.musicshop.models.MusicItem;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class InventoryServiceImplTest {
+    private InventoryServiceImpl inventoryService;
+
+    @BeforeEach
+    void setUp() {
+        inventoryService = new InventoryServiceImpl();
+    }
+
+    @Test
+    void testAddItem() {
+        MusicItem guitar = new Instrument("Guitar", 150.0, "String");
+        inventoryService.addItem(guitar);
+
+        List<MusicItem> items = inventoryService.getItems();
+        assertEquals(1, items.size());
+        assertEquals("Guitar", items.get(0).getName());
+    }
+
+    @Test
+    void testRemoveItem() {
+        MusicItem piano = new Instrument("Piano", 1000.0, "Percussion");
+        inventoryService.addItem(piano);
+        inventoryService.removeItem("Piano");
+
+        List<MusicItem> items = inventoryService.getItems();
+        assertTrue(items.isEmpty());
+    }
+
+    @Test
+    void testGetItems() {
+        inventoryService.addItem(new Album("Thriller", 15.0, "Michael Jackson", 1982));
+        inventoryService.addItem(new Instrument("Drums", 200.0, "Percussion"));
+
+        List<MusicItem> items = inventoryService.getItems();
+        assertEquals(2, items.size());
+    }
+}
+package com.musicshop.services;
+
+import com.musicshop.models.Album;
+import com.musicshop.models.Instrument;
+import com.musicshop.models.MusicItem;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class FileStorageServiceTest {
+    private FileStorageService fileStorageService;
+    private InventoryServiceImpl inventoryService;
+    private static final String TEST_FILE_PATH = "test_inventory.dat";
+
+    @BeforeEach
+    void setUp() {
+        fileStorageService = new FileStorageService();
+        inventoryService = new InventoryServiceImpl();
+    }
+
+    @Test
+    void testSaveAndLoadItems() {
+        List<MusicItem> items = new ArrayList<>();
+        items.add(new Album("Test Album", 10.0, "Test Artist", 2021));
+        items.add(new Instrument("Violin", 120.0, "String"));
+
+        // Save to file
+        fileStorageService.saveItems(items, TEST_FILE_PATH);
+
+        // Load from file
+        inventoryService.clearItems();
+        fileStorageService.loadItems(inventoryService, TEST_FILE_PATH);
+        List<MusicItem> loadedItems = inventoryService.getItems();
+
+        assertEquals(2, loadedItems.size());
+        assertEquals("Test Album", loadedItems.get(0).getName());
+        assertEquals("Violin", loadedItems.get(1).getName());
+
+        // Clean up test file
+        new File(TEST_FILE_PATH).delete();
+    }
+}
+package com.musicshop.services;
+
+import com.musicshop.exceptions.InvalidItemException;
+import com.musicshop.models.Album;
+import com.musicshop.models.MusicItem;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MusicServiceImplTest {
+    private InventoryServiceImpl inventoryService;
+    private MusicServiceImpl musicService;
+
+    @BeforeEach
+    void setUp() {
+        inventoryService = new InventoryServiceImpl();
+        musicService = new MusicServiceImpl(inventoryService);
+    }
+
+    @Test
+    void testAddItem() throws InvalidItemException {
+        MusicItem album = new Album("Back in Black", 15.0, "AC/DC", 1980);
+        musicService.addItem(album);
+
+        List<MusicItem> items = inventoryService.getItems();
+        assertEquals(1, items.size());
+        assertEquals("Back in Black", items.get(0).getName());
+    }
+
+    @Test
+    void testRemoveItem() throws InvalidItemException {
+        MusicItem album = new Album("Greatest Hits", 10.0, "Queen", 1981);
+        musicService.addItem(album);
+
+        musicService.removeItem("Greatest Hits");
+        List<MusicItem> items = inventoryService.getItems();
+        assertTrue(items.isEmpty());
+    }
+
+    @Test
+    void testRemoveNonexistentItem() {
+        assertThrows(InvalidItemException.class, () -> musicService.removeItem("Nonexistent"));
+    }
+}
+package com.musicshop;
+
+import com.musicshop.models.Album;
+import com.musicshop.models.Instrument;
+import com.musicshop.models.MusicItem;
+import com.musicshop.services.FileStorageService;
+import com.musicshop.services.InventoryServiceImpl;
+import com.musicshop.services.MusicServiceImpl;
+import com.musicshop.exceptions.InvalidItemException;
+
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+public class MainMenu {
+    private MusicServiceImpl musicService;
+    private InventoryServiceImpl inventoryService;
+    private FileStorageService fileStorageService;
+    private Scanner scanner;
+
+    public MainMenu(MusicServiceImpl musicService, InventoryServiceImpl inventoryService, FileStorageService fileStorageService) {
+        this.musicService = musicService;
+        this.inventoryService = inventoryService;
+        this.fileStorageService = fileStorageService;
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void start() {
+        boolean running = true;
+        while (running) {
+            showMenu();
+            int choice = getUserChoice();
+            switch (choice) {
+                case 1 -> addItem();
+                case 2 -> removeItem();
+                case 3 -> viewItems();
+                case 4 -> saveInventory();
+                case 5 -> loadInventory();
+                case 0 -> {
+                    System.out.println("Exiting program...");
+                    running = false;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    private void showMenu() {
+        System.out.println("\n--- Music Shop Management System ---");
+        System.out.println("1. Add Item to Inventory");
+        System.out.println("2. Remove Item from Inventory");
+        System.out.println("3. View Inventory");
+        System.out.println("4. Save Inventory to File");
+        System.out.println("5. Load Inventory from File");
+        System.out.println("0. Exit");
+        System.out.print("Select an option: ");
+    }
+
+    private int getUserChoice() {
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            scanner.next();  // Clear invalid input
+            System.out.println("Invalid input. Please enter a number.");
+            return -1;
+        }
+    }
+
+    private void addItem() {
+        System.out.println("Choose item type: 1. Instrument  2. Album");
+        int type = getUserChoice();
+        scanner.nextLine();  // Consume newline
+
+        try {
+            if (type == 1) {
+                System.out.print("Enter Instrument name: ");
+                String name = scanner.nextLine();
+                System.out.print("Enter Instrument price: ");
+                double price = scanner.nextDouble();
+                scanner.nextLine();  // Consume newline
+                System.out.print("Enter Instrument type (e.g., String, Percussion): ");
+                String typeOfInstrument = scanner.nextLine();
+
+                MusicItem instrument = new Instrument(name, price, typeOfInstrument);
+                musicService.addItem(instrument);
+                System.out.println("Instrument added to inventory.");
+
+            } else if (type == 2) {
+                System.out.print("Enter Album name: ");
+                String name = scanner.nextLine();
+                System.out.print("Enter Album price: ");
+                double price = scanner.nextDouble();
+                scanner.nextLine();  // Consume newline
+                System.out.print("Enter Album artist: ");
+                String artist = scanner.nextLine();
+                System.out.print("Enter Album release year: ");
+                int releaseYear = scanner.nextInt();
+
+                MusicItem album = new Album(name, price, artist, releaseYear);
+                musicService.addItem(album);
+                System.out.println("Album added to inventory.");
+            } else {
+                System.out.println("Invalid item type selected.");
+            }
+        } catch (InvalidItemException | InputMismatchException e) {
+            System.out.println("Failed to add item: " + e.getMessage());
+            scanner.nextLine();  // Clear invalid input if any
+        }
+    }
+
+    private void removeItem() {
+        System.out.print("Enter name of the item to remove: ");
+        scanner.nextLine();  // Consume newline
+        String itemName = scanner.nextLine();
+
+        try {
+            musicService.removeItem(itemName);
+            System.out.println("Item removed from inventory.");
+        } catch (InvalidItemException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private void viewItems() {
+        List<MusicItem> items = inventoryService.getItems();
+        if (items.isEmpty()) {
+            System.out.println("Inventory is empty.");
+        } else {
+            System.out.println("\n--- Inventory List ---");
+            items.forEach(System.out::println);
+        }
+    }
+
+    private void saveInventory() {
+        fileStorageService.saveItems(inventoryService.getItems());
+        System.out.println("Inventory saved to file.");
+    }
+
+    private void loadInventory() {
+        fileStorageService.loadItems(inventoryService);
+        System.out.println("Inventory loaded from file.");
+    }
+}
+package com.musicshop.models;
+
+public abstract class MusicItem {
+    protected String name;
+    protected double price;
+
+    public MusicItem(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Price: $" + price;
+    }
+}
+package com.musicshop.models;
+
+public class Customer {
+    private String id;
+    private String name;
+
+    public Customer(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name;
+    }
+}
+package com.musicshop.models;
+
+public class Album extends MusicItem {
+    private String artist;
+    private int year;
+
+    public Album(String name, double price, String artist, int year) {
+        super(name, price);
+        this.artist = artist;
+        this.year = year;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Artist: " + artist + ", Year: " + year;
+    }
+}
+package com.musicshop.models;
+
+public class Instrument extends MusicItem {
+    private String type;
+
+    public Instrument(String name, double price, String type) {
+        super(name, price);
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Type: " + type;
+    }
+}
+package com.musicshop.exceptions;
+
+public class CustomerNotFoundException extends RuntimeException {
+    public CustomerNotFoundException(String message) {
+        super(message);
+    }
+}
+package com.musicshop.exceptions;
+
+public class InvalidItemException extends RuntimeException {
+    public InvalidItemException(String message) {
+        super(message);
+    }
+}
+package com.musicshop;
+
+import com.musicshop.services.FileStorageService;
+import com.musicshop.services.InventoryServiceImpl;
+import com.musicshop.services.MusicServiceImpl;
+
+public class Main {
+    public static void main(String[] args) {
+        InventoryServiceImpl inventoryService = new InventoryServiceImpl();
+        MusicServiceImpl musicService = new MusicServiceImpl(inventoryService);
+        FileStorageService fileStorageService = new FileStorageService();
+
+        MainMenu mainMenu = new MainMenu(musicService, inventoryService, fileStorageService);
+        mainMenu.start();
+    }
+}
+package com.musicshop.services;
+
+import com.musicshop.models.MusicItem;
+import com.musicshop.exceptions.InvalidItemException;
+
+public class MusicServiceImpl implements MusicService {
+    private InventoryServiceImpl inventoryService;
+
+    public MusicServiceImpl(InventoryServiceImpl inventoryService) {
+        this.inventoryService = inventoryService;
+    }
+
+    @Override
+    public void addItem(MusicItem item) {
+        if (item == null || item.getPrice() < 0) {
+            throw new InvalidItemException("Invalid item details");
+        }
+        inventoryService.addItem(item);
+    }
+
+    @Override
+    public void removeItem(String itemName) {
+        if (inventoryService.findItemByName(itemName) == null) {
+            throw new InvalidItemException("Item not found in inventory");
+        }
+        inventoryService.removeItem(itemName);
+    }
+}
+
+package com.musicshop.services;
+
+import com.musicshop.models.MusicItem;
+import com.musicshop.models.Album;
+import com.musicshop.models.Instrument;
+
+import java.io.*;
+import java.util.List;
+
+public class FileStorageService {
+    private static final String FILE_PATH = "inventory.txt";
+
+    public void saveItems(List<MusicItem> items) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (MusicItem item : items) {
+                writer.write(item.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving items: " + e.getMessage());
+        }
+    }
+
+    public void loadItems(InventoryServiceImpl inventoryService) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // For simplicity, assume item data is prefixed to determine type
+                // Example format: Instrument|Guitar|500|String
+                String[] parts = line.split("\\|");
+                MusicItem item;
+                if (parts[0].equals("Instrument")) {
+                    item = new Instrument(parts[1], Double.parseDouble(parts[2]), parts[3]);
+                } else if (parts[0].equals("Album")) {
+                    item = new Album(parts[1], Double.parseDouble(parts[2]), parts[3], Integer.parseInt(parts[4]));
+                } else {
+                    continue;
+                }
+                inventoryService.addItem(item);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Inventory file not found.");
+        } catch (IOException e) {
+            System.out.println("Error reading items: " + e.getMessage());
+        }
+    }
+}
+package com.musicshop.services;
+
+import com.musicshop.models.MusicItem;
+
+public interface MusicService {
+    void addItem(MusicItem item);
+    void removeItem(String itemName);
+}
+package com.musicshop.services;
+
+import com.musicshop.models.MusicItem;
+import java.util.List;
+
+public interface InventoryService {
+    List<MusicItem> getItems();
+    MusicItem findItemByName(String name);
+}
+package com.musicshop.services;
+
+import com.musicshop.models.MusicItem;
+import java.util.ArrayList;
+import java.util.List;
+
+public class InventoryServiceImpl implements InventoryService {
+    private List<MusicItem> inventory;
+
+    public InventoryServiceImpl() {
+        this.inventory = new ArrayList<>();
+    }
+
+    @Override
+    public List<MusicItem> getItems() {
+        return new ArrayList<>(inventory);
+    }
+
+    @Override
+    public MusicItem findItemByName(String name) {
+        return inventory.stream()
+                .filter(item -> item.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void addItem(MusicItem item) {
+        inventory.add(item);
+    }
+
+    public void removeItem(String itemName) {
+        inventory.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
+    }
+}

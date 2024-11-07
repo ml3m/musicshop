@@ -1,0 +1,26 @@
+.
+├── all_files_gpt3
+├── java
+│   └── com
+│       └── musicshop
+│           ├── Main.java
+│           ├── MainMenu.java
+│           ├── exceptions
+│           │   ├── CustomerNotFoundException.java
+│           │   └── InvalidItemException.java
+│           ├── models
+│           │   ├── Album.java
+│           │   ├── Customer.java
+│           │   ├── Instrument.java
+│           │   └── MusicItem.java
+│           └── services
+│               ├── FileStorageService.java
+│               ├── InventoryService.java
+│               ├── InventoryServiceImpl.java
+│               ├── MusicService.java
+│               └── MusicServiceImpl.java
+├── resources
+│   └── config.properties
+└── treegpt
+
+8 directories, 16 files
