@@ -6,7 +6,7 @@ public class Instrument extends MusicItem {
     // Default constructor for Jackson
     public Instrument() {
         super(null, 0.0);
-        this.type = "Instrument";
+        this.type = "instrument";
     }
 
     public Instrument(String name, double price, String type) {

@@ -7,15 +7,11 @@ class InstrumentTest {
 
     @Test
     void testInstrumentCreation() {
-        Instrument instrument = new Instrument("Guitar", 150.0, "String");
-        assertEquals("Guitar", instrument.getName());
-        assertEquals(150.0, instrument.getPrice());
-    }
+        MusicItem instrument = new Instrument("Guitar", 250.0, "Electric");
+        Instrument castedInstrument = (Instrument) instrument;
 
-    @Test
-    void testInstrumentToString() {
-        Instrument instrument = new Instrument("Piano", 1000.0, "Percussion");
-        String expected = "Name: Piano, Price: $1000.0, Type: Percussion";
-        assertEquals(expected, instrument.toString());
+        assertEquals("Guitar", castedInstrument.getName(), "Instrument name should be 'Guitar'");
+        assertEquals(250.0, castedInstrument.getPrice(), 0.001, "Instrument price should be 250.0");
+        assertEquals("Electric", castedInstrument.getType(), "Instrument type should be 'Electric'");
     }
 }

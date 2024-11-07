@@ -18,6 +18,13 @@ public class Album extends MusicItem {
         this.type = type;
     }
 
+    public String getName() {
+        return super.getName();
+    }
+    public double getPrice(){
+        return super.getPrice();
+    }
+
     public String getType() {
         return type;
     }

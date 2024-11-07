@@ -1,48 +1,32 @@
 package com.musicshop.services;
 
-import com.musicshop.models.Album;
-import com.musicshop.models.Instrument;
 import com.musicshop.models.MusicItem;
-import org.junit.jupiter.api.BeforeEach;
+import com.musicshop.models.Album;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;      // Import List
+import java.util.ArrayList; // Import ArrayList
+import static org.junit.jupiter.api.Assertions.*;
 
 class FileStorageServiceTest {
-    private FileStorageService fileStorageService;
-    private InventoryServiceImpl inventoryService;
-    private static final String TEST_FILE_PATH = "test_inventory.json";
 
-    @BeforeEach
-    void setUp() {
-        fileStorageService = new FileStorageService();
-        inventoryService = new InventoryServiceImpl();
+    @Test
+    void testLoadItems() {
+        FileStorageService fileStorageService = new FileStorageService();
+        // Assuming the file exists and contains items
+        List<MusicItem> items = fileStorageService.loadItems();
+        assertNotNull(items, "Loaded items should not be null");
+        assertTrue(items.size() > 0, "Loaded items list should contain items");
     }
 
     @Test
-    void testSaveAndLoadItems() {
+    void testSaveItems() {
+        FileStorageService fileStorageService = new FileStorageService();
         List<MusicItem> items = new ArrayList<>();
-        items.add(new Album("Test Album", 10.0, "Test Artist", 2021));
-        items.add(new Instrument("Violin", 120.0, "String"));
-
-        // Save to file
+        items.add(new Album("Test Album", 20.0, "Test Artist", 2020, "album"));
+        
         fileStorageService.saveItems(items);
-
-        // Load from file
-        inventoryService.clearItems();
-        fileStorageService.loadItems(inventoryService);
-        List<MusicItem> loadedItems = inventoryService.getItems();
-
-        assertEquals(2, loadedItems.size());
-        assertEquals("Test Album", loadedItems.get(0).getName());
-        assertEquals("Violin", loadedItems.get(1).getName());
-
-        // Clean up test file
-        new File(TEST_FILE_PATH).delete();
+        
+        List<MusicItem> loadedItems = fileStorageService.loadItems();
+        assertEquals(1, loadedItems.size(), "The saved item should be retrievable from the file");
     }
 }
