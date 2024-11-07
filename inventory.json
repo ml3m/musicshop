@@ -1,13 +1,1 @@
-[ {
-  "name" : "Test Album",
-  "price" : 20.0,
-  "artist" : "Test Artist",
-  "type" : "album",
-  "year" : 2020
-}, {
-  "name" : "Abbey Road",
-  "price" : 30.0,
-  "artist" : "The Beatles",
-  "type" : "album",
-  "year" : 1969
-} ]
+[{"name":"Abbey Road","price":30.0,"artist":"The Beatles","type":"album","year":1969},{"name":"Muzicuta","price":10.0,"type":"instrument"}]
