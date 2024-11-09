@@ -10,7 +10,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderServiceInterface {
     private static final String ORDER_FILE_PATH = "orders.json";
     private final ObjectMapper objectMapper;
-    private List<Order> orders;
+    private final List<Order> orders;
 
     public OrderServiceImpl() {
         this.objectMapper = new ObjectMapper();

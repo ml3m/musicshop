@@ -2,7 +2,7 @@ package com.musicshop.models;
 
 public class Album extends MusicItem {
     private String artist;
-    private String type;
+    private final String type;
     private int year;
 
     // Default constructor for Jackson

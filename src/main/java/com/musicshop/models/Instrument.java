@@ -1,7 +1,7 @@
 package com.musicshop.models;
 
 public class Instrument extends MusicItem {
-    private String type;
+    private final String type;
 
     // Default constructor for Jackson
     public Instrument() {

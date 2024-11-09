@@ -1,61 +1,122 @@
 package com.musicshop;
 
-import com.musicshop.models.Album;
-import com.musicshop.models.Instrument;
-import com.musicshop.models.MusicItem;
-import com.musicshop.models.Order;
-import com.musicshop.models.Customer;
-import com.musicshop.services.InventoryServiceImpl;
-import com.musicshop.services.MusicServiceImpl;
-import com.musicshop.services.OrderServiceInterface;
-import com.musicshop.exceptions.InvalidItemException;
+import com.musicshop.models.*;
+import com.musicshop.services.*;
+import com.musicshop.exceptions.*;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.time.Duration;
+import java.util.*;
+import java.time.LocalDateTime;
 
 public class MainMenu {
     private final MusicServiceImpl musicService;
     private final InventoryServiceImpl inventoryService;
-    private final OrderServiceInterface orderService;  // Use OrderServiceInterface
+    private final OrderServiceInterface orderService;
+    private final AuthenticationService authService;
+    private final UserService userService;
+    private final WorkLogService workLogService;
+    private final AnalyticsService analyticsService;
     private final Scanner scanner;
 
-    public MainMenu(MusicServiceImpl musicService, InventoryServiceImpl inventoryService, OrderServiceInterface orderService) {
+    public MainMenu(MusicServiceImpl musicService, InventoryServiceImpl inventoryService, 
+            OrderServiceInterface orderService, AuthenticationService authService,
+            UserService userService, WorkLogService workLogService,
+            AnalyticsService analyticsService) {
         this.musicService = musicService;
         this.inventoryService = inventoryService;
         this.orderService = orderService;
+        this.authService = authService;
+        this.userService = userService;
+        this.workLogService = workLogService;
+        this.analyticsService = analyticsService;
         this.scanner = new Scanner(System.in);
     }
 
     public void start() {
-        boolean running = true;
-        while (running) {
-            showMenu();
-            int choice = getUserChoice();
-            switch (choice) {
-                case 1 -> addItem();
-                case 2 -> removeItem();
-                case 3 -> viewItems();
-                case 4 -> createOrder();
-                case 5 -> viewOrders();
-                case 0 -> {
-                    System.out.println("Exiting program...");
-                    running = false;
-                }
-                default -> System.out.println("Invalid option. Please try again.");
+        while (true) {
+            if (!authService.isAuthenticated()) {
+                showLoginMenu();
+            } else {
+                showRoleBasedMenu();
             }
         }
     }
 
-    private void showMenu() {
-        System.out.println("\n--- Music Shop Management System ---");
-        System.out.println("1. Add Item to Inventory");
-        System.out.println("2. Remove Item from Inventory");
-        System.out.println("3. View Inventory");
-        System.out.println("4. Create Order");
-        System.out.println("5. View Orders");
-        System.out.println("0. Exit");
-        System.out.print("Select an option: ");
+    private void showLoginMenu() {
+        System.out.println("\n=== Music Shop Management System - Login ===");
+        System.out.println("1. Login");
+        System.out.println("2. Create an Account");
+        System.out.println("3. Quit");
+        System.out.print("Choose an option: ");
+
+        int choice = getUserChoice();
+        scanner.nextLine(); // Consume newline
+
+        switch (choice) {
+            case 1 -> performLogin();
+            case 2 -> createAccount();
+            case 3 -> {
+                System.out.println("Exiting program. Goodbye!");
+                System.exit(0); // Terminates the program
+            }
+            default -> System.out.println("Invalid option. Please try again.");
+        }
+    }
+
+    private void performLogin() {
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        try {
+            authService.login(username, password);
+            System.out.println("Login successful!");
+            workLogService.checkIn(authService.getCurrentUser().getId());
+        } catch (AuthenticationException e) {
+            System.out.println("Login failed: " + e.getMessage());
+        }
+    }
+
+    private void createAccount() {
+        System.out.println("\n=== Create an Account ===");
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+
+        System.out.println("Select role:");
+        System.out.println("1. Admin");
+        System.out.println("2. Shop Employee");
+        System.out.println("3. Accountant");
+
+        int roleChoice = getUserChoice();
+        UserRole role;
+        switch (roleChoice) {
+            case 1 -> role = UserRole.ADMIN;
+            case 2 -> role = UserRole.SHOP_EMPLOYEE;
+            case 3 -> role = UserRole.ACCOUNTANT;
+            default -> {
+                System.out.println("Invalid role selected");
+                return;
+            }
+        }
+
+        try {
+            userService.createUser(username, password, role);
+            System.out.println("Account created successfully! Please log in.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error creating account: " + e.getMessage());
+        }
+    }
+
+    private void showRoleBasedMenu() {
+        User currentUser = authService.getCurrentUser();
+        switch (currentUser.getRole()) {
+            case ADMIN -> showAdminMenu();
+            case SHOP_EMPLOYEE -> showEmployeeMenu();
+            case ACCOUNTANT -> showAccountantMenu();
+        }
     }
 
     private int getUserChoice() {
@@ -185,5 +246,292 @@ public class MainMenu {
             System.out.println("\n--- Order List ---");
             orders.forEach(System.out::println);
         }
+    }
+
+    private void showAdminMenu() {
+        System.out.println("\n=== Admin Dashboard ===");
+        System.out.println("1. Manage Users");
+        System.out.println("2. View System Stats");
+        System.out.println("3. View Inventory");
+        System.out.println("4. Generate Reports");
+        System.out.println("5. View All Work Logs");
+        System.out.println("0. Logout");
+
+        int choice = getUserChoice();
+        switch (choice) {
+            case 1 -> manageUsers();
+            case 2 -> viewSystemStats();
+            case 3 -> viewItems();
+            case 4 -> generateReports();
+            case 5 -> viewAllWorkLogs();
+            case 0 -> logout();
+            default -> System.out.println("Invalid option. Please try again.");
+        }
+    }
+
+    private void showEmployeeMenu() {
+        System.out.println("\n=== Employee Dashboard ===");
+        System.out.println("1. View Inventory");
+        System.out.println("2. Add Item");
+        System.out.println("3. Remove Item");
+        System.out.println("4. Create Order");
+        System.out.println("5. View Orders");
+        System.out.println("6. View My Work Hours");
+        System.out.println("0. Logout");
+
+        int choice = getUserChoice();
+        switch (choice) {
+            case 1 -> viewItems();
+            case 2 -> addItem();
+            case 3 -> removeItem();
+            case 4 -> createOrder();
+            case 5 -> viewOrders();
+            case 6 -> viewMyWorkHours();
+            case 0 -> logout();
+            default -> System.out.println("Invalid option. Please try again.");
+        }
+    }
+
+    private void showAccountantMenu() {
+        System.out.println("\n=== Accountant Dashboard ===");
+        System.out.println("1. View Sales Reports");
+        System.out.println("2. View Inventory Status");
+        System.out.println("3. View Revenue Analysis");
+        System.out.println("4. View Top Selling Items");
+        System.out.println("5. Export Reports");
+        System.out.println("0. Logout");
+
+        int choice = getUserChoice();
+        switch (choice) {
+            case 1 -> viewSalesReports();
+            case 2 -> viewInventoryStatus();
+            case 3 -> viewRevenueAnalysis();
+            case 4 -> viewTopSellingItems();
+            case 5 -> exportReports();
+            case 0 -> logout();
+            default -> System.out.println("Invalid option. Please try again.");
+        }
+    }
+
+    // Admin functions
+    private void manageUsers() {
+        System.out.println("\n=== User Management ===");
+        System.out.println("1. View All Users");
+        System.out.println("2. Add New User");
+        System.out.println("3. Modify User");
+        System.out.println("4. Deactivate User");
+        System.out.println("0. Back");
+
+        int choice = getUserChoice();
+        switch (choice) {
+            case 1 -> {
+                List<User> users = userService.getAllUsers();
+                users.forEach(System.out::println);
+            }
+            case 2 -> addNewUser();
+            case 3 -> modifyUser();
+            case 4 -> deactivateUser();
+        }
+    }
+
+    private void addNewUser() {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        System.out.println("Select role:");
+        System.out.println("1. Admin");
+        System.out.println("2. Shop Employee");
+        System.out.println("3. Accountant");
+
+        int roleChoice = getUserChoice();
+        UserRole role;
+        switch (roleChoice) {
+            case 1 -> role = UserRole.ADMIN;
+            case 2 -> role = UserRole.SHOP_EMPLOYEE;
+            case 3 -> role = UserRole.ACCOUNTANT;
+            default -> {
+                System.out.println("Invalid role selected");
+                return;
+            }
+        }
+
+        try {
+            userService.createUser(username, password, role);
+            System.out.println("User created successfully!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error creating user: " + e.getMessage());
+        }
+    }
+
+    private void modifyUser() {
+        System.out.print("Enter username to modify: ");
+        String username = scanner.nextLine();
+        Optional<User> userOpt = userService.findByUsername(username);
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            System.out.println("Current role: " + user.getRole());
+            System.out.println("Select new role (or 0 to keep current):");
+            System.out.println("1. Admin");
+            System.out.println("2. Shop Employee");
+            System.out.println("3. Accountant");
+
+            int roleChoice = getUserChoice();
+            if (roleChoice > 0 && roleChoice <= 3) {
+                UserRole newRole = switch (roleChoice) {
+                    case 1 -> UserRole.ADMIN;
+                    case 2 -> UserRole.SHOP_EMPLOYEE;
+                    case 3 -> UserRole.ACCOUNTANT;
+                    default -> user.getRole();
+                };
+                user.setRole(newRole);
+                userService.updateUser(user);
+                System.out.println("User updated successfully!");
+            }
+        } else {
+            System.out.println("User not found.");
+        }
+    }
+
+    private void deactivateUser() {
+        System.out.print("Enter username to deactivate: ");
+        String username = scanner.nextLine();
+        Optional<User> userOpt = userService.findByUsername(username);
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setActive(false);
+            userService.updateUser(user);
+            System.out.println("User deactivated successfully!");
+        } else {
+            System.out.println("User not found.");
+        }
+    }
+
+    // Employee functions
+    private void viewMyWorkHours() {
+        String userId = authService.getCurrentUser().getId();
+        Duration totalWork = workLogService.getTotalWorkTime(userId);
+        System.out.println("Total work hours: " + 
+                totalWork.toHours() + " hours, " + 
+                totalWork.toMinutesPart() + " minutes");
+    }
+
+    // Accountant functions
+    private void viewSalesReports() {
+        System.out.println("\n=== Sales Reports ===");
+        System.out.println("1. Daily Report");
+        System.out.println("2. Weekly Report");
+        System.out.println("3. Monthly Report");
+
+        int choice = getUserChoice();
+        LocalDateTime endDate = LocalDateTime.now();
+        LocalDateTime startDate = switch (choice) {
+            case 1 -> endDate.minusDays(1);
+            case 2 -> endDate.minusWeeks(1);
+            case 3 -> endDate.minusMonths(1);
+            default -> {
+                System.out.println("Invalid choice");
+                yield null;
+            }
+        };
+
+        if (startDate != null) {
+            SalesReport report = analyticsService.generateSalesReport(startDate, endDate);
+            displaySalesReport(report);
+        }
+    }
+
+    private void viewInventoryStatus() {
+        Map<String, Integer> status = analyticsService.getInventoryStatus();
+        System.out.println("\n=== Inventory Status ===");
+        status.forEach((type, count) -> 
+                System.out.println(type + ": " + count + " items"));
+    }
+
+    private void viewRevenueAnalysis() {
+        SalesReport report = analyticsService.generateSalesReport(
+                LocalDateTime.now().minusMonths(1),
+                LocalDateTime.now()
+                );
+        System.out.println("\n=== Revenue Analysis ===");
+        System.out.println("Total Revenue: $" + report.getTotalRevenue());
+        System.out.println("\nRevenue by Category:");
+        report.getRevenueByCategory().forEach((category, revenue) ->
+                System.out.println(category + ": $" + revenue));
+    }
+
+    private void viewTopSellingItems() {
+        SalesReport report = analyticsService.generateSalesReport(
+                LocalDateTime.now().minusMonths(1),
+                LocalDateTime.now()
+                );
+        System.out.println("\n=== Top Selling Items ===");
+        report.getTopSellingItems().forEach((item, quantity) ->
+                System.out.println(item + ": " + quantity + " units"));
+    }
+
+    private void exportReports() {
+        // Implementation for exporting reports to files
+        System.out.println("Exporting reports... (To be implemented)");
+    }
+
+    private void logout() {
+        try {
+            workLogService.checkOut(authService.getCurrentUser().getId());
+        } catch (IllegalStateException e) {
+            System.out.println("Warning: " + e.getMessage());
+        }
+        authService.logout();
+        System.out.println("Logged out successfully!");
+    }
+
+    private void displaySalesReport(SalesReport report) {
+        System.out.println("\n=== Sales Report ===");
+        System.out.println("Generated: " + report.getGeneratedDate());
+        System.out.println("Total Orders: " + report.getTotalOrders());
+        System.out.println("Total Revenue: $" + report.getTotalRevenue());
+
+        System.out.println("\nTop Selling Items:");
+        report.getTopSellingItems().forEach((item, quantity) ->
+                System.out.println(item + ": " + quantity + " units"));
+
+        System.out.println("\nRevenue by Category:");
+        report.getRevenueByCategory().forEach((category, revenue) ->
+                System.out.println(category + ": $" + revenue));
+    }
+    // Add these methods to MainMenu.java
+    private void viewSystemStats() {
+        System.out.println("\n=== System Statistics ===");
+        System.out.println("Total Users: " + userService.getAllUsers().size());
+        System.out.println("Total Items in Inventory: " + inventoryService.getItems().size());
+        System.out.println("Total Orders: " + orderService.getAllOrders().size());
+    }
+
+    private void generateReports() {
+        System.out.println("\n=== Generate Reports ===");
+        System.out.println("1. User Activity Report");
+        System.out.println("2. Inventory Report");
+        System.out.println("3. Sales Report");
+
+        int choice = getUserChoice();
+        switch (choice) {
+            case 1 -> System.out.println("Generating User Activity Report...");
+            case 2 -> System.out.println("Generating Inventory Report...");
+            case 3 -> System.out.println("Generating Sales Report...");
+                default -> System.out.println("Invalid option selected.");
+        }
+    }
+
+    private void viewAllWorkLogs() {
+        System.out.println("\n=== All Work Logs ===");
+        Map<String, java.time.Duration> allWorkLogs = workLogService.getAllWorkLogs();
+        allWorkLogs.forEach((userId, duration) -> {
+            Optional<User> user = userService.findById(userId);
+            System.out.println("User: " + (user.isPresent() ? user.get().getUsername() : "Unknown") +
+                    " - Hours: " + duration.toHours() +
+                    " Minutes: " + duration.toMinutesPart());
+        });
     }
 }

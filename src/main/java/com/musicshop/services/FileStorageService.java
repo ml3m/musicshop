@@ -1,9 +1,14 @@
 package com.musicshop.services;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.musicshop.models.Order;
 import com.musicshop.models.MusicItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.musicshop.models.User;
+import com.musicshop.models.WorkLog;
+
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +18,66 @@ import java.util.List;
 public class FileStorageService {
     private static final String INVENTORY_FILE_PATH = "inventory.json";
     private static final String ORDERS_FILE_PATH = "orders.json";
+    private static final String USERS_FILE_PATH = "users.json";
+    private static final String WORKLOGS_FILE_PATH = "worklogs.json";
     private final ObjectMapper objectMapper;
 
     public FileStorageService() {
         this.objectMapper = new ObjectMapper();
+
+        objectMapper.registerModule(new JavaTimeModule());
+        // Optionally disable writing timestamps as strings if you prefer ISO date strings
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
+
+   // Load work logs from the work logs JSON file
+    public List<WorkLog> loadWorkLogs() {
+        try {
+            File file = new File(WORKLOGS_FILE_PATH);
+            if (!file.exists()) {
+                return new ArrayList<>();
+            }
+            return objectMapper.readValue(file, new TypeReference<List<WorkLog>>() {});
+        } catch (IOException e) {
+            System.out.println("Error loading work logs from JSON: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    // Save work logs to the work logs JSON file
+    public void saveWorkLogs(List<WorkLog> workLogs) {
+        try {
+            objectMapper.writeValue(new File(WORKLOGS_FILE_PATH), workLogs);
+            System.out.println("Work logs saved to JSON file.");
+        } catch (IOException e) {
+            System.out.println("Error saving work logs to JSON: " + e.getMessage());
+        }
+    }
+
+    // Load users from the users JSON file
+    public List<User> loadUsers() {
+        try {
+            File file = new File(USERS_FILE_PATH);
+            if (!file.exists()) {
+                return new ArrayList<>();
+            }
+            return objectMapper.readValue(file, new TypeReference<List<User>>() {});
+        } catch (IOException e) {
+            System.out.println("Error loading users from JSON: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    // Save users to the users JSON file
+    public void saveUsers(List<User> users) {
+        try {
+            objectMapper.writeValue(new File(USERS_FILE_PATH), users);
+            System.out.println("Users saved to JSON file.");
+        } catch (IOException e) {
+            System.out.println("Error saving users to JSON: " + e.getMessage());
+        }
+    }
+
 
     // Load items from the inventory JSON file
     public List<MusicItem> loadItems() {

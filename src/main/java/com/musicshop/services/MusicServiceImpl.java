@@ -4,7 +4,7 @@ import com.musicshop.models.MusicItem;
 import com.musicshop.exceptions.InvalidItemException;
 
 public class MusicServiceImpl implements MusicService {
-    private InventoryServiceImpl inventoryService;
+    private final InventoryServiceImpl inventoryService;
 
     public MusicServiceImpl(InventoryServiceImpl inventoryService) {
         this.inventoryService = inventoryService;
