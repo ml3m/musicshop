@@ -129,12 +129,113 @@ public class MainMenu {
         }
     }
 
+    private void editItem() {
+        System.out.print("Enter the name of the item to modify: ");
+        scanner.nextLine(); // Consume newline
+        String itemName = scanner.nextLine();
+
+        MusicItem item = inventoryService.findItemByName(itemName);
+        if (item == null) {
+            System.out.println("Item not found in inventory.");
+            return;
+        }
+
+        System.out.println("Current item details: " + item);
+        System.out.println("Current Barcode: " + item.getBarcode());  // Display barcode
+        boolean modifying = true;
+        while (modifying) {
+            System.out.println("Choose what to modify:");
+            System.out.println("1. Name");
+            System.out.println("2. Price");
+            System.out.println("3. Quantity");
+            if (item instanceof Album) {
+                System.out.println("4. Artist");
+                System.out.println("5. Year");
+            }
+            System.out.println("6. Done");
+
+            int choice = getUserChoice();
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Enter new name: ");
+                    String newName = scanner.nextLine();
+                    item.setName(newName);
+                    System.out.println("Name updated to: " + newName);
+                }
+                case 2 -> {
+                    System.out.print("Enter new price: ");
+                    try {
+                        double newPrice = scanner.nextDouble();
+                        scanner.nextLine(); // Consume newline
+                        if (newPrice > 0) {
+                            item.setPrice(newPrice);
+                            System.out.println("Price updated to: $" + newPrice);
+                        } else {
+                            System.out.println("Invalid price. Price must be greater than zero.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a valid number.");
+                        scanner.nextLine(); // Clear invalid input
+                    }
+                }
+                case 3 -> {
+                    System.out.print("Enter new quantity: ");
+                    try {
+                        int newQuantity = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                        if (newQuantity > 0) {
+                            item.setQuantity(newQuantity);
+                            System.out.println("Quantity updated to: " + newQuantity);
+                        } else {
+                            System.out.println("Invalid quantity. Quantity must be greater than zero.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a valid number.");
+                        scanner.nextLine(); // Clear invalid input
+                    }
+                }
+                case 6 -> {
+                    modifying = false;
+                    inventoryService.saveItemsInInventory();
+                    System.out.println("Item modifications saved.");
+                }
+                default -> System.out.println("Invalid option. Please choose again.");
+            }
+        }
+    }
+
+    private String generateBarcode() {
+        // Simple barcode generation example: can use libraries like ZXing for actual barcode generation
+        return UUID.randomUUID().toString();  // Or any logic to generate a unique barcode
+    }
+
+    private String getBarcodeFromUser() {
+        System.out.println("Do you want to generate a random barcode or enter your own?");
+        System.out.println("1. Generate random barcode");
+        System.out.println("2. Enter your own barcode");
+        int choice = getUserChoice();
+
+        scanner.nextLine();  // Consume newline
+
+        if (choice == 1) {
+            return generateBarcode();  // Generate a random barcode
+        } else if (choice == 2) {
+            System.out.print("Enter custom barcode: ");
+            return scanner.nextLine();  // User provides their own barcode
+        } else {
+            System.out.println("Invalid option. Generating a random barcode by default.");
+            return generateBarcode();  // Default to random barcode if invalid input
+        }
+    }
+
     private void addItem() {
         System.out.println("Choose item type: 1. Instrument  2. Album");
         int type = getUserChoice();
         scanner.nextLine();  // Consume newline
 
         try {
+            String barcode = getBarcodeFromUser();  // Generate barcode
+
             if (type == 1) {
                 String type_selected_jsonID = "instrument";
 
@@ -143,13 +244,12 @@ public class MainMenu {
                 System.out.print("Enter Instrument price: ");
                 double price = scanner.nextDouble();
                 scanner.nextLine();  // Consume newline
-                System.out.print("Enter Instrument type (e.g., Guitar, Piano): ");
-                String instrumentType = scanner.nextLine();
+                //System.out.print("Enter Instrument type (e.g., Guitar, Piano): ");
 
-                MusicItem instrument = new Instrument(name, price, type_selected_jsonID);
+                MusicItem instrument = new Instrument(name, price, type_selected_jsonID, 1, barcode);
                 musicService.addItem(instrument);
 
-                System.out.println("Instrument added to inventory.");
+                System.out.println("Instrument added to inventory with barcode: " + barcode);
 
             } else if (type == 2) {
                 String type_selected_jsonID = "album";
@@ -164,13 +264,12 @@ public class MainMenu {
                 System.out.print("Enter Album release year: ");
                 int releaseYear = scanner.nextInt();
                 scanner.nextLine();  // Consume newline
-                System.out.print("Enter Album type (e.g., Vinyl, CD): ");
-                String albumType = scanner.nextLine();
+                //System.out.print("Enter Album type (e.g., Vinyl, CD): ");
 
-                MusicItem album = new Album(name, price, artist, releaseYear, type_selected_jsonID);
+                MusicItem album = new Album(name, price, artist, releaseYear, type_selected_jsonID, 1, barcode);
                 musicService.addItem(album);
 
-                System.out.println("Album added to inventory.");
+                System.out.println("Album added to inventory with barcode: " + barcode);
             } else {
                 System.out.println("Invalid item type selected.");
             }
@@ -282,7 +381,8 @@ public class MainMenu {
         System.out.println("3. Remove Item");
         System.out.println("4. Create Order");
         System.out.println("5. View Orders");
-        System.out.println("6. View My Work Hours");
+        System.out.println("6. Edit Item Quantity");  // New option for editing item quantity
+        System.out.println("7. View My Work Hours");
         System.out.println("0. Logout");
 
         int choice = getUserChoice();
@@ -292,9 +392,38 @@ public class MainMenu {
             case 3 -> removeItem();
             case 4 -> createOrder();
             case 5 -> viewOrders();
-            case 6 -> viewMyWorkHours();
+            case 6 -> editItem();  // Call the new method
+            case 7 -> viewMyWorkHours();
             case 0 -> logout();
             default -> System.out.println("Invalid option. Please try again.");
+        }
+    }
+
+    private void editItemQuantity() {
+        System.out.print("Enter the name of the item to modify: ");
+        scanner.nextLine(); // Consume newline
+        String itemName = scanner.nextLine();
+
+        MusicItem item = inventoryService.findItemByName(itemName);
+        if (item == null) {
+            System.out.println("Item not found in inventory.");
+            return;
+        }
+
+        System.out.println("Current quantity of " + itemName + ": " + item.getQuantity());
+        System.out.print("Enter the new quantity: ");
+        int newQuantity;
+        try {
+            newQuantity = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+            if (newQuantity > 0) {
+                inventoryService.editItemQuantity(itemName, newQuantity);  // Call the method to update quantity
+            } else {
+                System.out.println("Invalid quantity. Quantity must be greater than zero.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            scanner.nextLine(); // Clear invalid input
         }
     }
 

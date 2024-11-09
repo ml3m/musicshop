@@ -20,13 +20,6 @@
   "active" : true,
   "lastLogin" : "2024-11-09T13:47:18.483765"
 }, {
-  "id" : "96c5062b-1842-4cda-8966-3df995d34da7",
-  "username" : "mlem",
-  "password" : "mlem",
-  "role" : "SHOP_EMPLOYEE",
-  "active" : true,
-  "lastLogin" : "2024-11-09T13:47:39.471455"
-}, {
   "id" : "34c8aa60-122f-432e-b9cf-13ab769407d3",
   "username" : "a",
   "password" : "a",
@@ -40,4 +33,11 @@
   "role" : "SHOP_EMPLOYEE",
   "active" : true,
   "lastLogin" : "2024-11-09T13:47:58.966272"
+}, {
+  "id" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "username" : "mlem",
+  "password" : "mlem",
+  "role" : "SHOP_EMPLOYEE",
+  "active" : true,
+  "lastLogin" : "2024-11-09T14:54:48.873973"
 } ]

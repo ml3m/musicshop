@@ -5,24 +5,22 @@ public class Album extends MusicItem {
     private final String type;
     private int year;
 
-    // Default constructor for Jackson
     public Album() {
         super(null, 0.0);
         this.type = "album";
     }
 
     public Album(String name, double price, String artist, int year, String type) {
-        super(name, price);
+        this(name, price, artist, year, type, 1, null);
+    }
+
+    public Album(String name, double price, String artist, int year, String type, int quantity, String barcode) {
+        super(name, price, quantity);
         this.artist = artist;
         this.year = year;
         this.type = type;
-    }
 
-    public String getName() {
-        return super.getName();
-    }
-    public double getPrice(){
-        return super.getPrice();
+        setBarcode(barcode);
     }
 
     @Override
@@ -32,6 +30,14 @@ public class Album extends MusicItem {
 
     public String getArtist() {
         return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public int getYear() {

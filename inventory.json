@@ -1,13 +1,31 @@
 [ {
   "name" : "Test Album",
   "price" : 20.0,
+  "quantity" : 15,
+  "barcode" : "234202059293492342834293429323942",
   "artist" : "Test Artist",
   "type" : "album",
   "year" : 2020
 }, {
   "name" : "Abbey Road",
   "price" : 30.0,
+  "quantity" : 2,
+  "barcode" : "837428234293492834982934823423422",
   "artist" : "The Beatles",
   "type" : "album",
-  "year" : 1969
+  "year" : 1970
+}, {
+  "name" : "Mixtape Pluto",
+  "price" : 120.0,
+  "quantity" : 1,
+  "barcode" : "2a751940-6e63-470b-b438-03cc0780fa81",
+  "artist" : "Future",
+  "type" : "album",
+  "year" : 2024
+}, {
+  "name" : "Balalaika",
+  "price" : 7000.0,
+  "quantity" : 1,
+  "barcode" : "1230128347120837412834910274102340192847",
+  "type" : "instrument"
 } ]

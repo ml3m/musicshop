@@ -30,9 +30,31 @@ public class InventoryServiceImpl implements InventoryService {
                 .orElse(null);
     }
 
-    public void addItem(MusicItem item) {
-        inventory.add(item); 
-        fileStorageService.appendItem(item); // Append single item to file
+    public void addItem(MusicItem newItem) {
+        MusicItem existingItem = findItemByName(newItem.getName());
+        if (existingItem != null) {
+            existingItem.increaseQuantity(newItem.getQuantity());
+            System.out.println("Increased quantity of " + newItem.getName() + " to " + existingItem.getQuantity());
+        } else {
+            inventory.add(newItem);
+            System.out.println("Added new item: " + newItem.getName());
+        }
+        fileStorageService.saveItems(inventory); // Save inventory after modification
+    }
+
+    public void editItemQuantity(String itemName, int newQuantity) {
+        MusicItem item = findItemByName(itemName);
+        if (item != null) {
+            if (newQuantity > 0) {
+                item.setQuantity(newQuantity);
+                System.out.println("Quantity of " + itemName + " updated to " + newQuantity);
+                fileStorageService.saveItems(inventory); // Save the inventory after modification
+            } else {
+                System.out.println("Invalid quantity. It must be greater than zero.");
+            }
+        } else {
+            System.out.println("Item not found in inventory: " + itemName);
+        }
     }
 
     public void removeItem(String itemName) {
@@ -43,5 +65,10 @@ public class InventoryServiceImpl implements InventoryService {
     public void clearItems() {
         inventory.clear();
         fileStorageService.clearAllItems(); // Clear the JSON file
+    }
+
+    // New method to save inventory using FileStorageService
+    public void saveItemsInInventory() {
+        fileStorageService.saveItems(inventory);
     }
 }
