@@ -50,6 +50,7 @@ public class UserService {
         saveUsers();
     }
 
+    // not used.
     public void deleteUser(String userId) {
         users.removeIf(u -> u.getId().equals(userId));
         saveUsers();

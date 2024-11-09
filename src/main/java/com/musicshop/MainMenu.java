@@ -233,9 +233,15 @@ public class MainMenu {
             }
         }
 
-        orderService.processOrder(order);  // Process the order
-        orderService.saveOrders(orderService.getAllOrders());  // Save orders after processing
-        System.out.println("Order processed and saved successfully.");
+        User currentEmployeeProcessingOrder = authService.getCurrentUser();
+
+        if (currentEmployeeProcessingOrder != null){
+            orderService.processOrder(order, currentEmployeeProcessingOrder);
+            orderService.saveOrders(orderService.getAllOrders());
+            System.out.println("Order processed and saved successfully.");
+        } else {
+            System.out.println("Error: No authenticated user to process the order.");
+        }
     }
 
     private void viewOrders() {

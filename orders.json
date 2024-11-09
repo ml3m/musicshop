@@ -1,1 +1,112 @@
-[{"orderId":"ORD-54d4ea96-2b5c-4827-89c2-3399ccc336b3","customer":{"id":"asd","name":"moon"},"cartItems":[{"type":"instrument","name":"Muzicuta","price":10.0,"type":"instrument"}],"totalAmount":10.0},{"orderId":"ORD-22808c36-1970-47ce-90ac-2740d1936c52","customer":{"id":"ada","name":"mlema"},"cartItems":[{"type":"album","name":"Abbey Road","price":30.0,"artist":"The Beatles","type":"album","year":1969},{"type":"instrument","name":"Muzicuta","price":10.0,"type":"instrument"}],"totalAmount":40.0}]
+[ {
+  "orderId" : "ORD-0387b0b9-5f97-43f3-9ec4-03b39ce62822",
+  "customer" : {
+    "id" : "adfafa",
+    "name" : "mlem"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Test Album",
+    "price" : 20.0,
+    "artist" : "Test Artist",
+    "type" : "album",
+    "year" : 2020
+  }, {
+    "type" : "album",
+    "name" : "Abbey Road",
+    "price" : 30.0,
+    "artist" : "The Beatles",
+    "type" : "album",
+    "year" : 1969
+  }, {
+    "type" : "album",
+    "name" : "Lavender",
+    "price" : 70.0,
+    "artist" : "Yung Lean",
+    "type" : "album",
+    "year" : 2013
+  }, {
+    "type" : "album",
+    "name" : "Clean",
+    "price" : 30.0,
+    "artist" : "Madona",
+    "type" : "album",
+    "year" : 2013
+  } ],
+  "totalAmount" : 150.0,
+  "orderDate" : "2024-11-09T12:08:29.852916",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PENDING"
+}, {
+  "orderId" : "ORD-5ef65f37-9541-46a7-9a25-5f2e39522eca",
+  "customer" : {
+    "id" : "i",
+    "name" : "Ana"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Lavender",
+    "price" : 70.0,
+    "artist" : "Yung Lean",
+    "type" : "album",
+    "year" : 2013
+  }, {
+    "type" : "album",
+    "name" : "Clean",
+    "price" : 30.0,
+    "artist" : "Madona",
+    "type" : "album",
+    "year" : 2013
+  } ],
+  "totalAmount" : 100.0,
+  "orderDate" : "2024-11-09T12:23:30.048784",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PENDING"
+}, {
+  "orderId" : "ORD-b9122125-25e2-4958-b140-c88e58ffb3fa",
+  "customer" : {
+    "id" : "asdf",
+    "name" : "Maria"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Abbey Road",
+    "price" : 30.0,
+    "artist" : "The Beatles",
+    "type" : "album",
+    "year" : 1969
+  }, {
+    "type" : "album",
+    "name" : "Lavender",
+    "price" : 70.0,
+    "artist" : "Yung Lean",
+    "type" : "album",
+    "year" : 2013
+  } ],
+  "totalAmount" : 100.0,
+  "orderDate" : "2024-11-09T12:40:30.000121",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-2c44df45-0bfb-4a9c-8246-71cc35f9072d",
+  "customer" : {
+    "id" : "aasdffff",
+    "name" : "Andreas"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Abbey Road",
+    "price" : 30.0,
+    "artist" : "The Beatles",
+    "type" : "album",
+    "year" : 1969
+  } ],
+  "totalAmount" : 30.0,
+  "orderDate" : "2024-11-09T13:48:13.79332",
+  "processedById" : "d97e04eb-acf8-446c-b9c0-dfcf141fc372",
+  "processedBy" : "yuzu",
+  "status" : "PROCESSED"
+} ]

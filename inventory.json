@@ -1,1 +1,13 @@
-[{"name":"Test Album","price":20.0,"artist":"Test Artist","type":"album","year":2020},{"name":"Abbey Road","price":30.0,"artist":"The Beatles","type":"album","year":1969},{"name":"Lavender","price":70.0,"artist":"Yung Lean","type":"album","year":2013}]
+[ {
+  "name" : "Test Album",
+  "price" : 20.0,
+  "artist" : "Test Artist",
+  "type" : "album",
+  "year" : 2020
+}, {
+  "name" : "Abbey Road",
+  "price" : 30.0,
+  "artist" : "The Beatles",
+  "type" : "album",
+  "year" : 1969
+} ]

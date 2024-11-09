@@ -1,1 +1,43 @@
-[{"id":"e5b7827f-1400-4799-bac8-ad357f3a2c06","username":"foo","password":"foo","role":"SHOP_EMPLOYEE","active":true,"lastLogin":"2024-11-09T04:09:29.839204"},{"id":"e21b69c4-a15e-4cdc-bb16-71034b3693e4","username":"admin","password":"admin123","role":"ADMIN","active":true,"lastLogin":"2024-11-09T04:12:53.599485"},{"id":"1b988a50-6f5d-4811-8bb4-af3b60fab917","username":"lol","password":"lol","role":"ADMIN","active":true,"lastLogin":"2024-11-09T04:13:03.607453"},{"id":"96c5062b-1842-4cda-8966-3df995d34da7","username":"mlem","password":"mlem","role":"SHOP_EMPLOYEE","active":true,"lastLogin":"2024-11-09T04:18:15.411289"}]
+[ {
+  "id" : "e5b7827f-1400-4799-bac8-ad357f3a2c06",
+  "username" : "foo",
+  "password" : "foo",
+  "role" : "SHOP_EMPLOYEE",
+  "active" : true,
+  "lastLogin" : "2024-11-09T04:09:29.839204"
+}, {
+  "id" : "e21b69c4-a15e-4cdc-bb16-71034b3693e4",
+  "username" : "admin",
+  "password" : "admin123",
+  "role" : "ADMIN",
+  "active" : true,
+  "lastLogin" : "2024-11-09T04:12:53.599485"
+}, {
+  "id" : "1b988a50-6f5d-4811-8bb4-af3b60fab917",
+  "username" : "lol",
+  "password" : "lol",
+  "role" : "ADMIN",
+  "active" : true,
+  "lastLogin" : "2024-11-09T13:47:18.483765"
+}, {
+  "id" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "username" : "mlem",
+  "password" : "mlem",
+  "role" : "SHOP_EMPLOYEE",
+  "active" : true,
+  "lastLogin" : "2024-11-09T13:47:39.471455"
+}, {
+  "id" : "34c8aa60-122f-432e-b9cf-13ab769407d3",
+  "username" : "a",
+  "password" : "a",
+  "role" : "ACCOUNTANT",
+  "active" : true,
+  "lastLogin" : "2024-11-09T13:47:44.540517"
+}, {
+  "id" : "d97e04eb-acf8-446c-b9c0-dfcf141fc372",
+  "username" : "yuzu",
+  "password" : "yuzu",
+  "role" : "SHOP_EMPLOYEE",
+  "active" : true,
+  "lastLogin" : "2024-11-09T13:47:58.966272"
+} ]

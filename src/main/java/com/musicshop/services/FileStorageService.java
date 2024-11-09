@@ -26,11 +26,13 @@ public class FileStorageService {
         this.objectMapper = new ObjectMapper();
 
         objectMapper.registerModule(new JavaTimeModule());
-        // Optionally disable writing timestamps as strings if you prefer ISO date strings
+        // Enable pretty printing
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        // Disable writing timestamps as strings if you prefer ISO date strings
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-   // Load work logs from the work logs JSON file
+    // Load work logs from the work logs JSON file
     public List<WorkLog> loadWorkLogs() {
         try {
             File file = new File(WORKLOGS_FILE_PATH);
@@ -77,7 +79,6 @@ public class FileStorageService {
             System.out.println("Error saving users to JSON: " + e.getMessage());
         }
     }
-
 
     // Load items from the inventory JSON file
     public List<MusicItem> loadItems() {
