@@ -70,7 +70,8 @@ public class FileStorageService {
 
     // Load work logs from the work logs JSON file
     public List<WorkLog> loadWorkLogs() {
-        return loadData(WORKLOGS_FILE_NAME, new TypeReference<List<WorkLog>>() {});
+        return loadData(WORKLOGS_FILE_NAME, new TypeReference<>() {
+        });
     }
 
     // Save work logs to the work logs JSON file
@@ -80,7 +81,8 @@ public class FileStorageService {
 
     // Load users from the users JSON file
     public List<User> loadUsers() {
-        return loadData(USERS_FILE_NAME, new TypeReference<List<User>>() {});
+        return loadData(USERS_FILE_NAME, new TypeReference<>() {
+        });
     }
 
     // Save users to the users JSON file
@@ -90,7 +92,8 @@ public class FileStorageService {
 
     // Load items from the inventory JSON file
     public List<MusicItem> loadItems() {
-        return loadData(INVENTORY_FILE_NAME, new TypeReference<List<MusicItem>>() {});
+        return loadData(INVENTORY_FILE_NAME, new TypeReference<>() {
+        });
     }
 
     // Save items to the inventory JSON file

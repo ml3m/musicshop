@@ -162,13 +162,12 @@ public class MainMenu {
         }
     }
 
-    private void createAccount() {
-        System.out.println("\n=== Create an Account ===");
+    private void createUserPrompt(String successMessage, String errorMessage) {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
-
+        
         System.out.println("Select role:");
         System.out.println("1. Admin");
         System.out.println("2. Shop Employee");
@@ -188,10 +187,19 @@ public class MainMenu {
 
         try {
             userService.createUser(username, password, role);
-            System.out.println("Account created successfully! Please log in.");
+            System.out.println(successMessage);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error creating account: " + e.getMessage());
+            System.out.println(errorMessage + ": " + e.getMessage());
         }
+    }
+
+    private void createAccount() {
+        System.out.println("\n=== Create an Account ===");
+        createUserPrompt("Account created successfully! Please log in.", "Error creating account");
+    }
+
+    private void addNewUser() {
+        createUserPrompt("User created successfully!", "Error creating user");
     }
 
     private void showRoleBasedMenu() {
@@ -488,43 +496,6 @@ public class MainMenu {
         }
     }
 
-    /*
-    private void updateOrderStatus() {
-
-        System.out.println("\nEnter Order ID to update:");
-        String orderId = scanner.nextLine();  // Method to get user input
-        
-        orderService order = findOrderByCustomerId(orderId);  // You should implement this method to find the order by its ID
-        
-        if (order != null) {
-            System.out.println("\nCurrent Status: " + order.getStatus());
-            System.out.println("Choose new status:");
-            System.out.println("1. Pending");
-            System.out.println("2. Processed");
-            System.out.println("3. Completed");
-            System.out.println("4. Canceled");
-            
-            int statusChoice = getUserChoice();
-            Order.OrderStatus newStatus = null;
-            
-            switch (statusChoice) {
-                case 1 -> newStatus = Order.OrderStatus.PENDING;
-                case 2 -> newStatus = Order.OrderStatus.PROCESSED;
-                case 3 -> newStatus = Order.OrderStatus.COMPLETED;
-                case 4 -> newStatus = Order.OrderStatus.CANCELLED;
-                default -> System.out.println("Invalid option. Please try again.");
-            }
-            
-            if (newStatus != null) {
-                order.setStatus(newStatus);
-                System.out.println("Order status updated to: " + newStatus);
-            }
-        } else {
-            System.out.println("Order not found.");
-        }
-    }
-    */
-
     private void showAccountantMenu() {
         System.out.println("\n=== Accountant Dashboard ===");
         System.out.println("1. View Sales Reports");
@@ -564,36 +535,6 @@ public class MainMenu {
             case 2 -> addNewUser();
             case 3 -> modifyUser();
             case 4 -> deactivateUser();
-        }
-    }
-
-    private void addNewUser() {
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine();
-        System.out.println("Select role:");
-        System.out.println("1. Admin");
-        System.out.println("2. Shop Employee");
-        System.out.println("3. Accountant");
-
-        int roleChoice = getUserChoice();
-        UserRole role;
-        switch (roleChoice) {
-            case 1 -> role = UserRole.ADMIN;
-            case 2 -> role = UserRole.SHOP_EMPLOYEE;
-            case 3 -> role = UserRole.ACCOUNTANT;
-            default -> {
-                System.out.println("Invalid role selected");
-                return;
-            }
-        }
-
-        try {
-            userService.createUser(username, password, role);
-            System.out.println("User created successfully!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error creating user: " + e.getMessage());
         }
     }
 
