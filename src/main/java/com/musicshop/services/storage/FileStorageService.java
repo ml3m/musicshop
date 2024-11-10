@@ -7,146 +7,134 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.musicshop.models.user.User;
 import com.musicshop.models.user.WorkLog;
-
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileStorageService {
-    private static final String INVENTORY_FILE_PATH = "inventory.json";
-    private static final String ORDERS_FILE_PATH = "orders.json";
-    private static final String USERS_FILE_PATH = "users.json";
-    private static final String WORKLOGS_FILE_PATH = "worklogs.json";
+    private static final Logger logger = Logger.getLogger(FileStorageService.class.getName());
+
+    // Update to point to the correct directory for your JSON files
+    private static final String DATA_DIRECTORY = "src/main/data";  // Pointing to 'data' folder
+    private static final String INVENTORY_FILE_NAME = "inventory.json";
+    private static final String ORDERS_FILE_NAME = "orders.json";
+    private static final String USERS_FILE_NAME = "users.json";
+    private static final String WORKLOGS_FILE_NAME = "worklogs.json";
+
     private final ObjectMapper objectMapper;
 
     public FileStorageService() {
         this.objectMapper = new ObjectMapper();
-
         objectMapper.registerModule(new JavaTimeModule());
-        // Enable pretty printing
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        // Disable writing timestamps as strings if you prefer ISO date strings
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        logger.setLevel(Level.WARNING);
+    }
+
+    // Helper method to get the file path
+    private Path getFilePath(String fileName) {
+        return Paths.get(DATA_DIRECTORY, fileName).toAbsolutePath();
+    }
+
+    // Helper method to load data from a JSON file into a list
+    private <T> List<T> loadData(String fileName, TypeReference<List<T>> typeReference) {
+        try {
+            File file = getFilePath(fileName).toFile();
+            if (!file.exists()) {
+                return new ArrayList<>();
+            }
+            return objectMapper.readValue(file, typeReference);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error loading data from " + fileName, e);
+            return new ArrayList<>();
+        }
+    }
+
+    // Helper method to save data to a JSON file
+    private <T> void saveData(String fileName, List<T> data) {
+        try {
+            objectMapper.writeValue(getFilePath(fileName).toFile(), data);
+            logger.info(fileName + " saved to JSON file.");
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error saving data to " + fileName, e);
+        }
     }
 
     // Load work logs from the work logs JSON file
     public List<WorkLog> loadWorkLogs() {
-        try {
-            File file = new File(WORKLOGS_FILE_PATH);
-            if (!file.exists()) {
-                return new ArrayList<>();
-            }
-            return objectMapper.readValue(file, new TypeReference<List<WorkLog>>() {});
-        } catch (IOException e) {
-            System.out.println("Error loading work logs from JSON: " + e.getMessage());
-            return new ArrayList<>();
-        }
+        return loadData(WORKLOGS_FILE_NAME, new TypeReference<List<WorkLog>>() {});
     }
 
     // Save work logs to the work logs JSON file
     public void saveWorkLogs(List<WorkLog> workLogs) {
-        try {
-            objectMapper.writeValue(new File(WORKLOGS_FILE_PATH), workLogs);
-            System.out.println("Work logs saved to JSON file.");
-        } catch (IOException e) {
-            System.out.println("Error saving work logs to JSON: " + e.getMessage());
-        }
+        saveData(WORKLOGS_FILE_NAME, workLogs);
     }
 
     // Load users from the users JSON file
     public List<User> loadUsers() {
-        try {
-            File file = new File(USERS_FILE_PATH);
-            if (!file.exists()) {
-                return new ArrayList<>();
-            }
-            return objectMapper.readValue(file, new TypeReference<List<User>>() {});
-        } catch (IOException e) {
-            System.out.println("Error loading users from JSON: " + e.getMessage());
-            return new ArrayList<>();
-        }
+        return loadData(USERS_FILE_NAME, new TypeReference<List<User>>() {});
     }
 
     // Save users to the users JSON file
     public void saveUsers(List<User> users) {
-        try {
-            objectMapper.writeValue(new File(USERS_FILE_PATH), users);
-            System.out.println("Users saved to JSON file.");
-        } catch (IOException e) {
-            System.out.println("Error saving users to JSON: " + e.getMessage());
-        }
+        saveData(USERS_FILE_NAME, users);
     }
 
     // Load items from the inventory JSON file
     public List<MusicItem> loadItems() {
-        try {
-            File file = new File(INVENTORY_FILE_PATH);
-            if (!file.exists()) {
-                return new ArrayList<>();
-            }
-            return objectMapper.readValue(file, new TypeReference<List<MusicItem>>() {});
-        } catch (IOException e) {
-            System.out.println("Error loading items from JSON: " + e.getMessage());
-            return new ArrayList<>();
-        }
+        return loadData(INVENTORY_FILE_NAME, new TypeReference<List<MusicItem>>() {});
     }
 
     // Save items to the inventory JSON file
     public void saveItems(List<MusicItem> items) {
-        try {
-            objectMapper.writeValue(new File(INVENTORY_FILE_PATH), items);
-            System.out.println("Inventory saved to JSON file.");
-        } catch (IOException e) {
-            System.out.println("Error saving items to JSON: " + e.getMessage());
-        }
+        saveData(INVENTORY_FILE_NAME, items);
     }
 
     // Append a single item to the inventory JSON file
     public void appendItem(MusicItem item) {
         try {
-            // Load current inventory
             List<MusicItem> items = loadItems();
-            // Add new item
             items.add(item);
-            // Save updated inventory
             saveItems(items);
-            System.out.println("Item appended to inventory.");
+            logger.info("Item appended to inventory.");
         } catch (Exception e) {
-            System.out.println("Error appending item to inventory: " + e.getMessage());
+            logger.log(Level.SEVERE, "Error appending item to inventory", e);
         }
     }
 
     // Clear all items in the inventory JSON file
     public void clearAllItems() {
         try {
-            saveItems(new ArrayList<>()); // Save an empty list to clear the file
-            System.out.println("All items cleared from inventory.");
+            saveItems(new ArrayList<>());
+            logger.info("All items cleared from inventory.");
         } catch (Exception e) {
-            System.out.println("Error clearing inventory: " + e.getMessage());
+            logger.log(Level.SEVERE, "Error clearing inventory", e);
         }
     }
 
-    // Load orders from orders JSON file
+    // Load orders from the orders JSON file
     public List<Order> loadOrders() {
         try {
-            File file = new File(ORDERS_FILE_PATH);
+            File file = getFilePath(ORDERS_FILE_NAME).toFile();
             if (file.exists()) {
                 return objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, Order.class));
             }
         } catch (IOException e) {
-            System.out.println("Error loading orders: " + e.getMessage());
+            logger.log(Level.SEVERE, "Error loading orders", e);
         }
         return new ArrayList<>();
     }
 
+    // Save orders to the orders JSON file
     public void saveOrders(List<Order> orders) {
-        try {
-            objectMapper.writeValue(new File(ORDERS_FILE_PATH), orders);
-        } catch (IOException e) {
-            System.out.println("Error saving orders: " + e.getMessage());
-        }
+        saveData(ORDERS_FILE_NAME, orders);
     }
 }
