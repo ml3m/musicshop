@@ -28,4 +28,158 @@
   "quantity" : 1,
   "barcode" : "1230128347120837412834910274102340192847",
   "type" : "instrument"
+}, {
+  "name" : "Neon Dreams",
+  "price" : 25.0,
+  "quantity" : 10,
+  "barcode" : "2342093842938473284928374923482734",
+  "artist" : "Yung Lean",
+  "type" : "album",
+  "year" : 2021
+}, {
+  "name" : "Drill Diaries",
+  "price" : 28.0,
+  "quantity" : 7,
+  "barcode" : "4920384729384720394823948203948230",
+  "artist" : "King Von",
+  "type" : "album",
+  "year" : 2022
+}, {
+  "name" : "Cosmic Cascade",
+  "price" : 40.0,
+  "quantity" : 3,
+  "barcode" : "3294832093482394023842938492308402",
+  "artist" : "Real Live",
+  "type" : "album",
+  "year" : 2020
+}, {
+  "name" : "Cherry Bomb Deluxe",
+  "price" : 50.0,
+  "quantity" : 5,
+  "barcode" : "4920394823049238402934823904832098",
+  "artist" : "Tyler, The Creator",
+  "type" : "album",
+  "year" : 2023
+}, {
+  "name" : "Midnight Synth",
+  "price" : 1200.0,
+  "quantity" : 2,
+  "barcode" : "1238471230471820471820491820418247",
+  "type" : "instrument"
+}, {
+  "name" : "Trap Glockenspiel",
+  "price" : 800.0,
+  "quantity" : 4,
+  "barcode" : "9873289749832749237498234798237498",
+  "type" : "instrument"
+}, {
+  "name" : "Cloud Rave",
+  "price" : 22.0,
+  "quantity" : 8,
+  "barcode" : "2342342345678976543245678902345634",
+  "artist" : "Yung Lean",
+  "type" : "album",
+  "year" : 2018
+}, {
+  "name" : "Chicago Nights",
+  "price" : 35.0,
+  "quantity" : 6,
+  "barcode" : "0987239487293847203984720938472903",
+  "artist" : "King Von",
+  "type" : "album",
+  "year" : 2019
+}, {
+  "name" : "Abstract Strings",
+  "price" : 2500.0,
+  "quantity" : 1,
+  "barcode" : "0239847230948723049872039847023847",
+  "type" : "instrument"
+}, {
+  "name" : "Golf Wang Anthem",
+  "price" : 29.0,
+  "quantity" : 12,
+  "barcode" : "3984720938472093847209384720398472",
+  "artist" : "Tyler, The Creator",
+  "type" : "album",
+  "year" : 2021
+}, {
+  "name" : "Tearful Rose",
+  "price" : 19.0,
+  "quantity" : 10,
+  "barcode" : "3840293847209384720398472093847209",
+  "artist" : "Real Live",
+  "type" : "album",
+  "year" : 2017
+}, {
+  "name" : "Street Symphony",
+  "price" : 1100.0,
+  "quantity" : 3,
+  "barcode" : "4902834709238472093847209384720834",
+  "type" : "instrument"
+}, {
+  "name" : "Sadboy Suite",
+  "price" : 30.0,
+  "quantity" : 6,
+  "barcode" : "1982347283749823749823749823748932",
+  "artist" : "Yung Lean",
+  "type" : "album",
+  "year" : 2022
+}, {
+  "name" : "Drill Masterpiece",
+  "price" : 45.0,
+  "quantity" : 3,
+  "barcode" : "3298409238490238492384923049238409",
+  "artist" : "King Von",
+  "type" : "album",
+  "year" : 2020
+}, {
+  "name" : "Crystal Pluck",
+  "price" : 1500.0,
+  "quantity" : 2,
+  "barcode" : "9823749823749823749823749823749283",
+  "type" : "instrument"
+}, {
+  "name" : "Skater Paradise",
+  "price" : 27.0,
+  "quantity" : 9,
+  "barcode" : "8273498273498237498237498273984739",
+  "artist" : "Tyler, The Creator",
+  "type" : "album",
+  "year" : 2018
+}, {
+  "name" : "Retro Funk",
+  "price" : 26.0,
+  "quantity" : 7,
+  "barcode" : "1239082340928347298347293847293842",
+  "artist" : "Real Live",
+  "type" : "album",
+  "year" : 2023
+}, {
+  "name" : "Tropical Synthwave",
+  "price" : 2100.0,
+  "quantity" : 3,
+  "barcode" : "3984720938472398472398472093847923",
+  "type" : "instrument"
+}, {
+  "name" : "Lean Serenade",
+  "price" : 25.0,
+  "quantity" : 8,
+  "barcode" : "8374982374983274982374983274982342",
+  "artist" : "Yung Lean",
+  "type" : "album",
+  "year" : 2019
+}, {
+  "name" : "Realist Realms",
+  "price" : 34.0,
+  "quantity" : 6,
+  "barcode" : "1239847230948273049827340982734098",
+  "artist" : "Real Live",
+  "type" : "album",
+  "year" : 2024
+}, {
+  "name" : "Pianola",
+  "price" : 880.0,
+  "quantity" : 1,
+  "barcode" : "4758345c-3411-4c24-9ed6-f19fd7c31fa5",
+  "type" : "instrument"
 } ]
