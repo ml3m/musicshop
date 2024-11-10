@@ -1,8 +1,13 @@
 package com.musicshop.models;
 
+import com.musicshop.models.music.Album;
+import com.musicshop.models.music.Instrument;
+import com.musicshop.models.music.MusicItem;
+import com.musicshop.models.sales.Order;
+import com.musicshop.models.user.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {

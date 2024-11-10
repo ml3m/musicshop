@@ -1,8 +1,21 @@
 package com.musicshop;
 
-import com.musicshop.models.*;
-import com.musicshop.services.*;
+import com.musicshop.models.music.Album;
+import com.musicshop.models.music.Instrument;
+import com.musicshop.models.music.MusicItem;
+import com.musicshop.models.music.SearchCriteria;
+import com.musicshop.models.sales.Order;
+import com.musicshop.models.sales.SalesReport;
+import com.musicshop.models.user.Customer;
+import com.musicshop.models.user.User;
+import com.musicshop.models.user.UserRole;
 import com.musicshop.exceptions.*;
+import com.musicshop.services.analytics_dashboard.AnalyticsService;
+import com.musicshop.services.inventory.InventoryServiceImpl;
+import com.musicshop.services.music.MusicServiceImpl;
+import com.musicshop.services.order.OrderServiceInterface;
+import com.musicshop.services.user.AuthenticationService;
+import com.musicshop.services.user.UserService;
 
 import java.time.Duration;
 import java.util.*;
@@ -15,14 +28,14 @@ public class MainMenu {
     private final OrderServiceInterface orderService;
     private final AuthenticationService authService;
     private final UserService userService;
-    private final WorkLogService workLogService;
+    private final AuthenticationService.WorkLogService workLogService;
     private final AnalyticsService analyticsService;
     private final Scanner scanner;
     private final Console console = System.console();
 
     public MainMenu(MusicServiceImpl musicService, InventoryServiceImpl inventoryService, 
             OrderServiceInterface orderService, AuthenticationService authService,
-            UserService userService, WorkLogService workLogService,
+            UserService userService, AuthenticationService.WorkLogService workLogService,
             AnalyticsService analyticsService) {
         this.musicService = musicService;
         this.inventoryService = inventoryService;
@@ -200,7 +213,6 @@ public class MainMenu {
 
     private void editItem() {
         System.out.print("Enter the name of the item to modify: ");
-        scanner.nextLine(); // Consume newline
         String itemName = scanner.nextLine();
 
         MusicItem item = inventoryService.findItemByName(itemName);

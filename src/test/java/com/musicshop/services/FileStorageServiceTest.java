@@ -1,7 +1,8 @@
 package com.musicshop.services;
 
-import com.musicshop.models.MusicItem;
-import com.musicshop.models.Album;
+import com.musicshop.models.music.MusicItem;
+import com.musicshop.models.music.Album;
+import com.musicshop.services.storage.FileStorageService;
 import org.junit.jupiter.api.Test;
 import java.util.List;      // Import List
 import java.util.ArrayList; // Import ArrayList

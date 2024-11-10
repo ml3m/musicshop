@@ -1,5 +1,6 @@
 package com.musicshop.models;
 
+import com.musicshop.models.user.WorkLog;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
