@@ -33,37 +33,97 @@ public class MainMenu {
     }
 
     public void start() {
+        try {
+            while (true) {
+                if (!authService.isAuthenticated()) {
+                    if (!showLoginMenu()) {
+                        break;
+                    }
+                } else {
+                    showRoleBasedMenu();
+                }
+            }
+        } finally {
+            // Ensure proper cleanup
+            // I have no idea
+            if (authService.isAuthenticated()) {
+                logout();
+            }
+        }
+    }
+
+    private boolean showLoginMenu() {
         while (true) {
-            if (!authService.isAuthenticated()) {
-                showLoginMenu();
-            } else {
-                showRoleBasedMenu();
+            System.out.println("\n=== Music Shop Management System - Login ===");
+            System.out.println("1. Login");
+            System.out.println("2. Create an Account");
+            System.out.println("3. Quit");
+            System.out.print("Choose an option: ");
+
+            int choice = getUserChoice();
+            
+            switch (choice) {
+                case 1:
+                    if (performLogin()) { return true; }
+                    break;
+                case 2:
+                    createAccount();
+                    break;
+                case 3:
+                    System.out.println("Exiting program. Goodbye!");
+                    return false;
+                default:
+                    System.out.println("Invalid option. Please try again.");
             }
         }
     }
 
-    private void showLoginMenu() {
-        System.out.println("\n=== Music Shop Management System - Login ===");
-        System.out.println("1. Login");
-        System.out.println("2. Create an Account");
-        System.out.println("3. Quit");
-        System.out.print("Choose an option: ");
-
-        int choice = getUserChoice();
-        scanner.nextLine(); // Consume newline
-
-        switch (choice) {
-            case 1 -> performLogin();
-            case 2 -> createAccount();
-            case 3 -> {
-                System.out.println("Exiting program. Goodbye!");
-                System.exit(0); // Terminates the program
-            }
-            default -> System.out.println("Invalid option. Please try again.");
+    private void searchInventory() {
+        System.out.println("\n=== Advanced Search ===");
+        //scanner.nextLine(); // Consume newline
+        
+        System.out.print("Enter search keyword (or press Enter to skip): ");
+        String keyword = scanner.nextLine();
+        keyword = keyword.isEmpty() ? null : keyword;
+        
+        System.out.print("Enter minimum price (or press Enter to skip): ");
+        String minPriceStr = scanner.nextLine();
+        Double minPrice = minPriceStr.isEmpty() ? null : Double.parseDouble(minPriceStr);
+        
+        System.out.print("Enter maximum price (or press Enter to skip): ");
+        String maxPriceStr = scanner.nextLine();
+        Double maxPrice = maxPriceStr.isEmpty() ? null : Double.parseDouble(maxPriceStr);
+        
+        System.out.println("Select item type:");
+        System.out.println("1. All");
+        System.out.println("2. Album");
+        System.out.println("3. Instrument");
+        int typeChoice = getUserChoice();
+        String itemType = switch (typeChoice) {
+            case 2 -> "Album";
+            case 3 -> "Instrument";
+            default -> null;
+        };
+        
+        System.out.println("Show in-stock items only?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        System.out.println("3. Show all");
+        int stockChoice = getUserChoice();
+        Boolean inStock = stockChoice == 3 ? null : stockChoice == 1;
+        
+        SearchCriteria criteria = new SearchCriteria(keyword, minPrice, maxPrice, itemType, inStock);
+        List<MusicItem> results = inventoryService.searchItems(criteria);
+        
+        if (results.isEmpty()) {
+            System.out.println("No items found matching your criteria.");
+        } else {
+            System.out.println("\n=== Search Results ===");
+            results.forEach(System.out::println);
         }
     }
 
-    private void performLogin() {
+    private boolean performLogin() {
         System.out.print("Username: ");
         String username = scanner.nextLine();
         System.out.print("Password: ");
@@ -73,8 +133,10 @@ public class MainMenu {
             authService.login(username, password);
             System.out.println("Login successful!");
             workLogService.checkIn(authService.getCurrentUser().getId());
+            return true;
         } catch (AuthenticationException e) {
             System.out.println("Login failed: " + e.getMessage());
+            return false;
         }
     }
 
@@ -120,12 +182,17 @@ public class MainMenu {
     }
 
     private int getUserChoice() {
-        try {
-            return scanner.nextInt();
-        } catch (InputMismatchException e) {
-            scanner.next();  // Clear invalid input
-            System.out.println("Invalid input. Please enter a number.");
-            return -1;
+        while (true) {
+            try {
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    System.out.println("Please enter a number.");
+                    continue;
+                }
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+            }
         }
     }
 
@@ -215,8 +282,6 @@ public class MainMenu {
         System.out.println("2. Enter your own barcode");
         int choice = getUserChoice();
 
-        scanner.nextLine();  // Consume newline
-
         if (choice == 1) {
             return generateBarcode();  // Generate a random barcode
         } else if (choice == 2) {
@@ -231,7 +296,6 @@ public class MainMenu {
     private void addItem() {
         System.out.println("Choose item type: 1. Instrument  2. Album");
         int type = getUserChoice();
-        scanner.nextLine();  // Consume newline
 
         try {
             String barcode = getBarcodeFromUser();  // Generate barcode
@@ -377,23 +441,25 @@ public class MainMenu {
     private void showEmployeeMenu() {
         System.out.println("\n=== Employee Dashboard ===");
         System.out.println("1. View Inventory");
-        System.out.println("2. Add Item");
-        System.out.println("3. Remove Item");
-        System.out.println("4. Create Order");
-        System.out.println("5. View Orders");
-        System.out.println("6. Edit Item Quantity");  // New option for editing item quantity
-        System.out.println("7. View My Work Hours");
+        System.out.println("2. Search Inventory");
+        System.out.println("3. Add Item");
+        System.out.println("4. Remove Item");
+        System.out.println("5. Create Order");
+        System.out.println("6. View Orders");
+        System.out.println("7. Edit Item Quantity");  // New option for editing item quantity
+        System.out.println("8. View My Work Hours");
         System.out.println("0. Logout");
 
         int choice = getUserChoice();
         switch (choice) {
             case 1 -> viewItems();
-            case 2 -> addItem();
-            case 3 -> removeItem();
-            case 4 -> createOrder();
-            case 5 -> viewOrders();
-            case 6 -> editItem();  // Call the new method
-            case 7 -> viewMyWorkHours();
+            case 2 -> searchInventory();
+            case 3 -> addItem();
+            case 4 -> removeItem();
+            case 5 -> createOrder();
+            case 6 -> viewOrders();
+            case 7 -> editItem();  // Call the new method
+            case 8 -> viewMyWorkHours();
             case 0 -> logout();
             default -> System.out.println("Invalid option. Please try again.");
         }
@@ -613,13 +679,17 @@ public class MainMenu {
     }
 
     private void logout() {
-        try {
-            workLogService.checkOut(authService.getCurrentUser().getId());
-        } catch (IllegalStateException e) {
-            System.out.println("Warning: " + e.getMessage());
+        User currentLoggedInUser = authService.getCurrentUser();
+        if (currentLoggedInUser != null){
+            try {
+                workLogService.checkOut(currentLoggedInUser.getId());
+            } catch (Exception e) {
+                System.out.println("Warning: Failed to check out work log: " + e.getMessage());
+            } finally {
+                authService.logout();
+                System.out.println("Logged out successfully!");
+            }
         }
-        authService.logout();
-        System.out.println("Logged out successfully!");
     }
 
     private void displaySalesReport(SalesReport report) {

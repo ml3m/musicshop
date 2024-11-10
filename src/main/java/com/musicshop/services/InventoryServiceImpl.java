@@ -1,8 +1,11 @@
 package com.musicshop.services;
 
 import com.musicshop.models.MusicItem;
+import com.musicshop.models.SearchCriteria;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class InventoryServiceImpl implements InventoryService {
     private final List<MusicItem> inventory;
@@ -28,6 +31,24 @@ public class InventoryServiceImpl implements InventoryService {
                 .filter(item -> item.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<MusicItem> searchItems(SearchCriteria criteria) {
+        return getItems().stream()
+            .filter(item -> matchesCriteria(item, criteria))
+            .collect(Collectors.toList());
+    }
+
+    private boolean matchesCriteria(MusicItem item, SearchCriteria criteria) {
+        return (criteria.getKeyword() == null || 
+                item.getName().toLowerCase().contains(criteria.getKeyword().toLowerCase())) &&
+               (criteria.getMinPrice() == null || item.getPrice() >= criteria.getMinPrice()) &&
+               (criteria.getMaxPrice() == null || item.getPrice() <= criteria.getMaxPrice()) &&
+               (criteria.getItemType() == null || 
+                item.getClass().getSimpleName().equalsIgnoreCase(criteria.getItemType())) &&
+               (criteria.getInStock() == null || 
+                (criteria.getInStock() && item.getQuantity() > 0) ||
+                (!criteria.getInStock() && item.getQuantity() == 0));
     }
 
     public void addItem(MusicItem newItem) {
