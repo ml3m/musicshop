@@ -2,6 +2,7 @@ package com.musicshop.models;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class User {
     private String id;  // Randomly generated string ID
@@ -21,7 +22,7 @@ public class User {
     public User(String username, String password, UserRole role) {
         this.id = generateRandomId();
         this.username = username;
-        this.password = password;
+        setPassword(password);
         this.role = role;
         this.active = true;
     }
@@ -54,8 +55,26 @@ public class User {
         return password;
     }
 
+    // Prevents double hashing by checking if the password is already hashed
     public void setPassword(String password) {
-        this.password = password;
+        if (isAlreadyHashed(password)) {
+            this.password = password;  // Assume it's already hashed
+        } else {
+            this.password = hashPassword(password);  // Hash if not already
+        }
+    }
+
+    // Check if a password is already hashed (approximation based on BCrypt structure)
+    private boolean isAlreadyHashed(String password) {
+        return password != null && password.startsWith("$2a$") && password.length() == 60;
+    }
+
+    private String hashPassword(String plainPassword) {
+        return BCrypt.hashpw(plainPassword, BCrypt.gensalt());  // Hash with BCrypt
+    }
+
+    public boolean checkPassword(String plainPassword) {
+        return BCrypt.checkpw(plainPassword, this.password);  // Validate hashed password
     }
 
     public UserRole getRole() {
@@ -81,4 +100,5 @@ public class User {
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
+
 }

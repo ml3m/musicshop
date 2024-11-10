@@ -7,7 +7,6 @@ import com.musicshop.exceptions.*;
 import java.time.Duration;
 import java.util.*;
 import java.time.LocalDateTime;
-import java.io.Console;
 
 public class MainMenu {
     private final MusicServiceImpl musicService;
@@ -18,7 +17,6 @@ public class MainMenu {
     private final WorkLogService workLogService;
     private final AnalyticsService analyticsService;
     private final Scanner scanner;
-    private final Console console = System.console();
 
     public MainMenu(MusicServiceImpl musicService, InventoryServiceImpl inventoryService, 
             OrderServiceInterface orderService, AuthenticationService authService,
@@ -35,23 +33,6 @@ public class MainMenu {
     }
 
     public void start() {
-        try {
-            while (true) {
-                if (!authService.isAuthenticated()) {
-                    if (!showLoginMenu()) {
-                        break;
-                    }
-                } else {
-                    showRoleBasedMenu();
-                }
-            }
-        } finally {
-            // Ensure proper cleanup
-            // I have no idea
-            if (authService.isAuthenticated()) {
-                logout();
-            }
-        }
     }
 
     private boolean showLoginMenu() {
@@ -126,76 +107,15 @@ public class MainMenu {
     }
 
     private boolean performLogin() {
-        System.out.print("Username: ");
-        String username = scanner.nextLine();
-        char[] passwordArr = console.readPassword("Password: ");
-        String password = new String(passwordArr);
-
-        try {
-            authService.login(username, password);
-            System.out.println("Login successful!");
-            workLogService.checkIn(authService.getCurrentUser().getId());
-            return true;
-        } catch (AuthenticationException e) {
-            System.out.println("Login failed: " + e.getMessage());
-            return false;
-        }
     }
 
     private void createAccount() {
-        System.out.println("\n=== Create an Account ===");
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine();
-
-        System.out.println("Select role:");
-        System.out.println("1. Admin");
-        System.out.println("2. Shop Employee");
-        System.out.println("3. Accountant");
-
-        int roleChoice = getUserChoice();
-        UserRole role;
-        switch (roleChoice) {
-            case 1 -> role = UserRole.ADMIN;
-            case 2 -> role = UserRole.SHOP_EMPLOYEE;
-            case 3 -> role = UserRole.ACCOUNTANT;
-            default -> {
-                System.out.println("Invalid role selected");
-                return;
-            }
-        }
-
-        try {
-            userService.createUser(username, password, role);
-            System.out.println("Account created successfully! Please log in.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error creating account: " + e.getMessage());
-        }
     }
 
     private void showRoleBasedMenu() {
-        User currentUser = authService.getCurrentUser();
-        switch (currentUser.getRole()) {
-            case ADMIN -> showAdminMenu();
-            case SHOP_EMPLOYEE -> showEmployeeMenu();
-            case ACCOUNTANT -> showAccountantMenu();
-        }
     }
 
     private int getUserChoice() {
-        while (true) {
-            try {
-                String input = scanner.nextLine().trim();
-                if (input.isEmpty()) {
-                    System.out.println("Please enter a number.");
-                    continue;
-                }
-                return Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
-            }
-        }
     }
 
     private void editItem() {
@@ -221,54 +141,7 @@ public class MainMenu {
                 System.out.println("4. Artist");
                 System.out.println("5. Year");
             }
-            System.out.println("6. Done");
-
-            int choice = getUserChoice();
-            switch (choice) {
-                case 1 -> {
-                    System.out.print("Enter new name: ");
-                    String newName = scanner.nextLine();
-                    item.setName(newName);
-                    System.out.println("Name updated to: " + newName);
-                }
-                case 2 -> {
-                    System.out.print("Enter new price: ");
-                    try {
-                        double newPrice = scanner.nextDouble();
-                        scanner.nextLine(); // Consume newline
-                        if (newPrice > 0) {
-                            item.setPrice(newPrice);
-                            System.out.println("Price updated to: $" + newPrice);
-                        } else {
-                            System.out.println("Invalid price. Price must be greater than zero.");
-                        }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Invalid input. Please enter a valid number.");
-                        scanner.nextLine(); // Clear invalid input
-                    }
-                }
-                case 3 -> {
-                    System.out.print("Enter new quantity: ");
-                    try {
-                        int newQuantity = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
-                        if (newQuantity > 0) {
-                            item.setQuantity(newQuantity);
-                            System.out.println("Quantity updated to: " + newQuantity);
-                        } else {
-                            System.out.println("Invalid quantity. Quantity must be greater than zero.");
-                        }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Invalid input. Please enter a valid number.");
-                        scanner.nextLine(); // Clear invalid input
-                    }
-                }
-                case 6 -> {
-                    modifying = false;
-                    inventoryService.saveItemsInInventory();
-                    System.out.println("Item modifications saved.");
-                }
-                default -> System.out.println("Invalid option. Please choose again.");
+            .... switch case
             }
         }
     }
@@ -346,31 +219,14 @@ public class MainMenu {
     }
 
     private void removeItem() {
-        System.out.print("Enter name of the item to remove: ");
-        scanner.nextLine();  // Consume newline
-        String itemName = scanner.nextLine();
-
-        try {
-            musicService.removeItem(itemName);
-            System.out.println("Item removed from inventory.");
-        } catch (InvalidItemException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
     }
 
     private void viewItems() {
-        List<MusicItem> items = inventoryService.getItems();
-        if (items.isEmpty()) {
-            System.out.println("Inventory is empty.");
-        } else {
-            System.out.println("\n--- Inventory List ---");
-            items.forEach(System.out::println);
-        }
     }
 
     private void createOrder() {
         System.out.print("Enter customer ID: ");
-        //scanner.nextLine();  // Consume newline
+        scanner.nextLine();  // Consume newline
         String customerId = scanner.nextLine();
         System.out.print("Enter customer name: ");
         String customerName = scanner.nextLine();
@@ -448,9 +304,8 @@ public class MainMenu {
         System.out.println("4. Remove Item");
         System.out.println("5. Create Order");
         System.out.println("6. View Orders");
-        System.out.println("7. Edit Item");
-        System.out.println("//8. Update Order Status");  // New option for updating order status
-        System.out.println("9. View My Work Hours");
+        System.out.println("7. Edit Item Quantity");  // New option for editing item quantity
+        System.out.println("8. View My Work Hours");
         System.out.println("0. Logout");
 
         int choice = getUserChoice();
@@ -461,50 +316,15 @@ public class MainMenu {
             case 4 -> removeItem();
             case 5 -> createOrder();
             case 6 -> viewOrders();
-            case 7 -> editItem();
-            //case 8 -> updateOrderStatus();  // Call the new method
-            case 9 -> viewMyWorkHours();
+            case 7 -> editItem();  // Call the new method
+            case 8 -> viewMyWorkHours();
             case 0 -> logout();
             default -> System.out.println("Invalid option. Please try again.");
         }
     }
 
-    /*
-    private void updateOrderStatus() {
-
-        System.out.println("\nEnter Order ID to update:");
-        String orderId = scanner.nextLine();  // Method to get user input
-        
-        orderService order = findOrderByCustomerId(orderId);  // You should implement this method to find the order by its ID
-        
-        if (order != null) {
-            System.out.println("\nCurrent Status: " + order.getStatus());
-            System.out.println("Choose new status:");
-            System.out.println("1. Pending");
-            System.out.println("2. Processed");
-            System.out.println("3. Completed");
-            System.out.println("4. Canceled");
-            
-            int statusChoice = getUserChoice();
-            Order.OrderStatus newStatus = null;
-            
-            switch (statusChoice) {
-                case 1 -> newStatus = Order.OrderStatus.PENDING;
-                case 2 -> newStatus = Order.OrderStatus.PROCESSED;
-                case 3 -> newStatus = Order.OrderStatus.COMPLETED;
-                case 4 -> newStatus = Order.OrderStatus.CANCELLED;
-                default -> System.out.println("Invalid option. Please try again.");
-            }
-            
-            if (newStatus != null) {
-                order.setStatus(newStatus);
-                System.out.println("Order status updated to: " + newStatus);
-            }
-        } else {
-            System.out.println("Order not found.");
-        }
+    private void editItemQuantity() {
     }
-    */
 
     private void showAccountantMenu() {
         System.out.println("\n=== Accountant Dashboard ===");
@@ -558,24 +378,7 @@ public class MainMenu {
         System.out.println("2. Shop Employee");
         System.out.println("3. Accountant");
 
-        int roleChoice = getUserChoice();
-        UserRole role;
-        switch (roleChoice) {
-            case 1 -> role = UserRole.ADMIN;
-            case 2 -> role = UserRole.SHOP_EMPLOYEE;
-            case 3 -> role = UserRole.ACCOUNTANT;
-            default -> {
-                System.out.println("Invalid role selected");
-                return;
-            }
-        }
-
-        try {
-            userService.createUser(username, password, role);
-            System.out.println("User created successfully!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error creating user: " + e.getMessage());
-        }
+...
     }
 
     private void modifyUser() {
