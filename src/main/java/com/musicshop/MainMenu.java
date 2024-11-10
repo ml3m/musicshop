@@ -713,7 +713,7 @@ public class MainMenu {
                 fileStorageService
             );
             
-            String fileName = "monthly_report_" + 
+            String fileName = "Reports/monthly_report_" +
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) +
                 ".pdf";
             

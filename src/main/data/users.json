@@ -48,17 +48,17 @@
   "active" : true,
   "lastLogin" : "2024-11-10T03:55:01.149372"
 }, {
-  "id" : "96c5062b-1842-4cda-8966-3df995d34da7",
-  "username" : "mlem",
-  "password" : "$2a$10$PjC6Wfh4Ty36mILuYl4A0.zl4idKrcWQI3F6u3rZRFUec8p7WOJbq",
-  "role" : "SHOP_EMPLOYEE",
-  "active" : true,
-  "lastLogin" : "2024-11-10T13:47:23.495946"
-}, {
   "id" : "0880809f-1bc7-49e2-be2e-dc2b45809569",
   "username" : "mlema",
   "password" : "$2a$10$cH04Y6kl2WDqB.3G57a9M.oFzk9dXip7D.9toksxW1ZaARxhQ7g5.",
   "role" : "ACCOUNTANT",
   "active" : true,
-  "lastLogin" : "2024-11-10T14:55:32.495688"
+  "lastLogin" : "2024-11-10T15:17:40.643757"
+}, {
+  "id" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "username" : "mlem",
+  "password" : "$2a$10$PjC6Wfh4Ty36mILuYl4A0.zl4idKrcWQI3F6u3rZRFUec8p7WOJbq",
+  "role" : "SHOP_EMPLOYEE",
+  "active" : true,
+  "lastLogin" : "2024-11-10T15:17:51.4788"
 } ]
