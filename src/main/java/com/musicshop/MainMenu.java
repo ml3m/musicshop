@@ -11,13 +11,17 @@ import com.musicshop.models.user.User;
 import com.musicshop.models.user.UserRole;
 import com.musicshop.exceptions.*;
 import com.musicshop.services.analytics_dashboard.AnalyticsService;
+import com.musicshop.services.export.ReportExportService;
 import com.musicshop.services.inventory.InventoryServiceImpl;
 import com.musicshop.services.music.MusicServiceImpl;
 import com.musicshop.services.order.OrderServiceInterface;
+import com.musicshop.services.storage.FileStorageService;
 import com.musicshop.services.user.AuthenticationService;
 import com.musicshop.services.user.UserService;
 
+import java.io.IOException;
 import java.time.Duration;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.io.Console;
@@ -33,10 +37,12 @@ public class MainMenu {
     private final Scanner scanner;
     private final Console console = System.console();
 
+    private final FileStorageService fileStorageService;
+
     public MainMenu(MusicServiceImpl musicService, InventoryServiceImpl inventoryService, 
             OrderServiceInterface orderService, AuthenticationService authService,
             UserService userService, AuthenticationService.WorkLogService workLogService,
-            AnalyticsService analyticsService) {
+            AnalyticsService analyticsService, FileStorageService fileStorageService) {
         this.musicService = musicService;
         this.inventoryService = inventoryService;
         this.orderService = orderService;
@@ -45,6 +51,7 @@ public class MainMenu {
         this.workLogService = workLogService;
         this.analyticsService = analyticsService;
         this.scanner = new Scanner(System.in);
+        this.fileStorageService = fileStorageService;
     }
 
     public void start() {
@@ -699,8 +706,22 @@ public class MainMenu {
     }
 
     private void exportReports() {
-        // Implementation for exporting reports to files
-        System.out.println("Exporting reports... (To be implemented)");
+        try {
+            ReportExportService exportService = new ReportExportService(
+                analyticsService,
+                userService,
+                fileStorageService
+            );
+            
+            String fileName = "monthly_report_" + 
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) +
+                ".pdf";
+            
+            exportService.generateMonthlyReport(fileName);
+            System.out.println("Report exported successfully to: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Error generating report: " + e.getMessage());
+        }
     }
 
     private void logout() {

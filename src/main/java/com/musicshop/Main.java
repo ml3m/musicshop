@@ -9,7 +9,7 @@ import com.musicshop.services.user.AuthenticationService;
 import com.musicshop.services.user.UserService;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         // Initialize services
         FileStorageService fileStorageService = new FileStorageService();
         
@@ -25,7 +25,7 @@ public class Main {
         
         // Analytics service
         AnalyticsService analyticsService = new AnalyticsService(orderService, inventoryService);
-
+        
         // Initialize main menu with all services
         MainMenu mainMenu = new MainMenu(
             musicService,
@@ -34,9 +34,10 @@ public class Main {
             authService,
             userService,
             workLogService,
-            analyticsService
+            analyticsService,
+            fileStorageService  // Add this parameter
         );
-
+        
         // Start the application
         mainMenu.start();
     }

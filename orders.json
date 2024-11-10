@@ -8,6 +8,8 @@
     "type" : "album",
     "name" : "Test Album",
     "price" : 20.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "Test Artist",
     "type" : "album",
     "year" : 2020
@@ -15,6 +17,8 @@
     "type" : "album",
     "name" : "Abbey Road",
     "price" : 30.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "The Beatles",
     "type" : "album",
     "year" : 1969
@@ -22,6 +26,8 @@
     "type" : "album",
     "name" : "Lavender",
     "price" : 70.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "Yung Lean",
     "type" : "album",
     "year" : 2013
@@ -29,6 +35,8 @@
     "type" : "album",
     "name" : "Clean",
     "price" : 30.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "Madona",
     "type" : "album",
     "year" : 2013
@@ -48,6 +56,8 @@
     "type" : "album",
     "name" : "Lavender",
     "price" : 70.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "Yung Lean",
     "type" : "album",
     "year" : 2013
@@ -55,6 +65,8 @@
     "type" : "album",
     "name" : "Clean",
     "price" : 30.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "Madona",
     "type" : "album",
     "year" : 2013
@@ -74,6 +86,8 @@
     "type" : "album",
     "name" : "Abbey Road",
     "price" : 30.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "The Beatles",
     "type" : "album",
     "year" : 1969
@@ -81,6 +95,8 @@
     "type" : "album",
     "name" : "Lavender",
     "price" : 70.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "Yung Lean",
     "type" : "album",
     "year" : 2013
@@ -100,6 +116,8 @@
     "type" : "album",
     "name" : "Abbey Road",
     "price" : 30.0,
+    "quantity" : 1,
+    "barcode" : null,
     "artist" : "The Beatles",
     "type" : "album",
     "year" : 1969
@@ -108,5 +126,38 @@
   "orderDate" : "2024-11-09T13:48:13.79332",
   "processedById" : "d97e04eb-acf8-446c-b9c0-dfcf141fc372",
   "processedBy" : "yuzu",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-8f3b819e-ecdb-456c-b384-f1d725f42f2d",
+  "customer" : {
+    "id" : "asdf",
+    "name" : "ion"
+  },
+  "cartItems" : [ {
+    "type" : "instrument",
+    "name" : "Tropical Synthwave",
+    "price" : 2100.0,
+    "quantity" : 3,
+    "barcode" : "3984720938472398472398472093847923",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "Street Symphony",
+    "price" : 1100.0,
+    "quantity" : 3,
+    "barcode" : "4902834709238472093847209384720834",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "Pianola",
+    "price" : 880.0,
+    "quantity" : 1,
+    "barcode" : "4758345c-3411-4c24-9ed6-f19fd7c31fa5",
+    "type" : "instrument"
+  } ],
+  "totalAmount" : 4080.0,
+  "orderDate" : "2024-11-10T13:45:53.976082",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
   "status" : "PROCESSED"
 } ]
