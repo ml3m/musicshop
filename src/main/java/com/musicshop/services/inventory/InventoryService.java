@@ -4,6 +4,7 @@ import com.musicshop.models.music.MusicItem;
 import com.musicshop.models.music.SearchCriteria;
 import com.musicshop.services.storage.FileStorageService;
 
+import java.io.Console;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -26,12 +27,25 @@ public class InventoryService implements InventoryServiceInterface {
         return new ArrayList<>(inventory);
     }
 
+    public List<MusicItem> getInventory(){
+        return inventory;
+    }
+
     @Override
     public MusicItem findItemByName(String name) {
-        return inventory.stream()
-                .filter(item -> item.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
+        if (name == null || name.trim().isEmpty()) {
+            return null; // Handle null or empty name
+        }
+
+        String trimmedName = name.trim().toLowerCase(); // Convert the name to lower case once for comparison
+        for (MusicItem item : inventory) {
+            System.out.println("item in inventory name: " + item.getName());
+            if (item.getName().toLowerCase().equals(trimmedName)) {
+                return item; // Return the first match found
+            }
+        }
+
+        return null; // No match found
     }
 
     public List<MusicItem> searchItems(SearchCriteria criteria) {
@@ -62,11 +76,6 @@ public class InventoryService implements InventoryServiceInterface {
             System.out.println("Added new item: " + newItem.getName());
         }
         fileStorageService.saveItems(inventory); // Save inventory after modification
-    }
-
-    public void removeItem(String itemName) {
-        inventory.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
-        fileStorageService.saveItems(inventory); // Save full inventory after removal
     }
 
     // New method to save inventory using FileStorageService

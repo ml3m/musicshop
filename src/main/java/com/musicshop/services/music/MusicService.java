@@ -19,12 +19,15 @@ public class MusicService implements MusicServiceInterface {
         inventoryService.addItem(item);
     }
 
-    @Override
     public void removeItem(String itemName) {
-        if (inventoryService.findItemByName(itemName) == null) {
-            throw new InvalidItemException("Item not found in inventory");
-        }
-        inventoryService.removeItem(itemName);
+        System.out.println("Attempting to remove item: " + itemName);
+
+        //itemToRemove = inventoryService.findItemByName(itemName);
+
+        inventoryService.getItems().remove(itemName);
+        inventoryService.saveItemsInInventory();
+        //System.out.println("Item '" + itemToRemove.getName() + "' has been removed from the inventory.");
+
     }
 }
 

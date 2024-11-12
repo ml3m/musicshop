@@ -35,14 +35,6 @@
   "type" : "album",
   "year" : 2018
 }, {
-  "name" : "Retro Funk",
-  "price" : 26.0,
-  "quantity" : 1,
-  "barcode" : "1239082340928347298347293847293842",
-  "artist" : "Real Live",
-  "type" : "album",
-  "year" : 2023
-}, {
   "name" : "Tropical Synthwave",
   "price" : 2100.0,
   "quantity" : 1,
@@ -85,14 +77,8 @@
 }, {
   "name" : "musicuta",
   "price" : 188.0,
-  "quantity" : 1,
+  "quantity" : 2,
   "barcode" : "40c5aa6e-1a72-4c5e-927e-e1a7950d9484",
-  "type" : "instrument"
-}, {
-  "name" : "mlemaa",
-  "price" : 123.0,
-  "quantity" : 1,
-  "barcode" : "4542a5b6-4d65-4174-9482-6fd28ab4cdf7",
   "type" : "instrument"
 }, {
   "name" : "guitar small",

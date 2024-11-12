@@ -101,20 +101,54 @@ public class MainMenu {
 
     private void searchInventory() {
         System.out.println("\n=== Advanced Search ===");
-        //scanner.nextLine(); // Consume newline
-        
+
+        // Keyword input
         System.out.print("Enter search keyword (or press Enter to skip): ");
         String keyword = scanner.nextLine();
         keyword = keyword.isEmpty() ? null : keyword;
-        
-        System.out.print("Enter minimum price (or press Enter to skip): ");
-        String minPriceStr = scanner.nextLine();
-        Double minPrice = minPriceStr.isEmpty() ? null : Double.parseDouble(minPriceStr);
-        
-        System.out.print("Enter maximum price (or press Enter to skip): ");
-        String maxPriceStr = scanner.nextLine();
-        Double maxPrice = maxPriceStr.isEmpty() ? null : Double.parseDouble(maxPriceStr);
-        
+
+        // Minimum price input with validation
+        Double minPrice = null;
+        while (minPrice == null) {
+            System.out.print("Enter minimum price (or press Enter to skip): ");
+            String minPriceStr = scanner.nextLine();
+            if (minPriceStr.isEmpty()) {
+                break;  // Skip if no input
+            }
+            try {
+                minPrice = Double.parseDouble(minPriceStr);
+                if (minPrice < 0) {
+                    throw new IllegalArgumentException("Price must not be negative.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input for minimum price. Please enter a non-negative number.");
+                minPrice = null;  // Reset to null to re-prompt
+            }
+        }
+
+        // Maximum price input with validation
+        Double maxPrice = null;
+        while (maxPrice == null) {
+            System.out.print("Enter maximum price (or press Enter to skip): ");
+            String maxPriceStr = scanner.nextLine();
+            if (maxPriceStr.isEmpty()) {
+                break;  // Skip if no input
+            }
+            try {
+                maxPrice = Double.parseDouble(maxPriceStr);
+                if (maxPrice < 0) {
+                    throw new IllegalArgumentException("Price must not be negative.");
+                }
+                if (minPrice != null && maxPrice < minPrice) {
+                    throw new IllegalArgumentException("Maximum price cannot be less than minimum price.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input for maximum price. Please enter a non-negative number greater than or equal to the minimum price.");
+                maxPrice = null;  // Reset to null to re-prompt
+            }
+        }
+
+        // Item type selection with validation
         System.out.println("Select item type:");
         System.out.println("1. All");
         System.out.println("2. Album");
@@ -123,19 +157,27 @@ public class MainMenu {
         String itemType = switch (typeChoice) {
             case 2 -> "Album";
             case 3 -> "Instrument";
-            default -> null;
+            default -> null;  // Reset to re-prompt
         };
-        
+
+        // In-stock status selection with validation
         System.out.println("Show in-stock items only?");
         System.out.println("1. Yes");
         System.out.println("2. No");
         System.out.println("3. Show all");
         int stockChoice = getUserChoice();
-        Boolean inStock = stockChoice == 3 ? null : stockChoice == 1;
-        
+        Boolean inStock = switch (stockChoice) {
+            case 1 -> true;
+            case 2 -> false;
+            case 3 -> null;
+            default -> null;
+        };
+
+        // Build search criteria and perform search
         SearchCriteria criteria = new SearchCriteria(keyword, minPrice, maxPrice, itemType, inStock);
         List<MusicItem> results = inventoryService.searchItems(criteria);
-        
+
+        // Display search results
         if (results.isEmpty()) {
             System.out.println("No items found matching your criteria.");
         } else {
@@ -371,19 +413,36 @@ public class MainMenu {
         }
     }
 
-    private void removeItem() {
-        System.out.print("Enter name of the item to remove: ");
-        scanner.nextLine();  // Consume newline
-        String itemName = scanner.nextLine();
 
-        try {
-            musicService.removeItem(itemName);
-            System.out.println("Item removed from inventory.");
-        } catch (InvalidItemException e) {
-            System.out.println("Error: " + e.getMessage());
+    public void removeItem() {
+        // Ask the user for the name or barcode of the item to remove
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the name or barcode of the item to remove:");
+
+        String input = scanner.nextLine().trim();
+        MusicItem itemToRemove = null;
+
+        // Try finding the item by name first
+        itemToRemove = inventoryService.findItemByName(input);
+
+        // If not found by name, try finding by barcode
+        if (itemToRemove == null) {
+            itemToRemove = inventoryService.getItems().stream()
+                    .filter(item -> item.getBarcode().equals(input))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        // If item is found, remove it and save the updated inventory
+        if (itemToRemove != null) {
+            // Remove the item directly from the inventory list in the service
+            inventoryService.getInventory().remove(itemToRemove);
+            inventoryService.saveItemsInInventory(); // Save after removal
+            System.out.println("Item '" + itemToRemove.getName() + "' has been removed from the inventory.");
+        } else {
+            System.out.println("Item not found in the inventory.");
         }
     }
-
     public void viewItems() {
         List<MusicItem> items = inventoryService.getItems();
         if (items.isEmpty()) {
