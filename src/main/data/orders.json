@@ -336,4 +336,46 @@
   "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
   "processedBy" : "mlem",
   "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-b8e04e11-f5cb-4ca3-9655-c34f632055a1",
+  "customer" : {
+    "id" : "fa;ldfkajsdf",
+    "name" : "ana"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Let It Be",
+    "price" : 60.0,
+    "quantity" : 1,
+    "barcode" : "23090b38-0451-47c3-84f2-b06e2a0291b3",
+    "artist" : "The Beatles",
+    "type" : "album",
+    "year" : 1970
+  } ],
+  "totalAmount" : 60.0,
+  "orderDate" : "2024-11-12T23:50:41.841143",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-3ebaa9d9-5c65-4614-92bd-1fe17cc70aea",
+  "customer" : {
+    "id" : "1231231",
+    "name" : "ana"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Revolver",
+    "price" : 65.0,
+    "quantity" : 1,
+    "barcode" : "1a4069fd-cb01-48b9-9a84-fb42a0630152",
+    "artist" : "The Beatles",
+    "type" : "album",
+    "year" : 1966
+  } ],
+  "totalAmount" : 65.0,
+  "orderDate" : "2024-11-13T00:04:06.029857",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
 } ]

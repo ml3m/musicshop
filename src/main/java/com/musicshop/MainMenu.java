@@ -180,7 +180,35 @@ public class MainMenu {
         if (results.isEmpty()) {
             System.out.println("No items found matching your criteria.");
         } else {
-            System.out.println("\n=== Search Results ===");
+            //System.out.println("\n=== Search Results ===");
+            //results.forEach(System.out::println);
+
+            // Ask the user how they want to sort the results
+            System.out.println("\nHow would you like to sort the results?");
+            System.out.println("1. By type");
+            System.out.println("2. By name");
+            System.out.println("3. By price");
+            int sortChoice = getUserChoice();
+
+            switch (sortChoice) {
+                case 1:
+                    // Sort by type
+                    results.sort(Comparator.comparing(MusicItem::getType));
+                    break;
+                case 2:
+                    // Sort by name
+                    results.sort(Comparator.comparing(MusicItem::getName));
+                    break;
+                case 3:
+                    // Sort by price
+                    results.sort(Comparator.comparing(MusicItem::getPrice));
+                    break;
+                default:
+                    System.out.println("Invalid choice. No sorting applied.");
+            }
+
+            // Display the sorted results
+            System.out.println("\n=== Sorted Results ===");
             results.forEach(System.out::println);
         }
     }
@@ -412,6 +440,18 @@ public class MainMenu {
         }
     }
 
+    public void removeItem(MusicItem item) {
+        // If the item is found, remove it from the inventory
+        if (item != null) {
+            // Remove the item directly from the inventory list in the service
+            inventoryService.getInventory().remove(item);
+            inventoryService.saveItemsInInventory(); // Save after removal
+            System.out.println("Item '" + item.getName() + "' has been removed from the inventory.");
+        } else {
+            System.out.println("Item not found in the inventory.");
+        }
+    }
+
 
     public void removeItem() {
         // Ask the user for the name or barcode of the item to remove
@@ -475,6 +515,7 @@ public class MainMenu {
                 addingItems = false;
             } else if (productChoice > 0 && productChoice <= items.size()) {
                 MusicItem item = items.get(productChoice - 1);
+                removeItem(item);
                 order.addItem(item);
                 System.out.println(item.getName() + " added to cart.");
             } else {

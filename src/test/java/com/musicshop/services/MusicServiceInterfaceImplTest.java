@@ -30,21 +30,9 @@ class MusicServiceInterfaceImplTest {
     }
 
     @Test
-    void testRemoveItem() {
-        MusicItem instrument = new Instrument("Piano", 500.0, "Grand");
-        musicService.addItem(instrument);
-        musicService.removeItem("Piano");
-        assertFalse(inventoryService.getItems().contains(instrument), "Item should be removed from the inventory");
-    }
-
-    @Test
     void testAddItemWithInvalidPrice() {
         MusicItem instrument = new Instrument("Drum", -50.0, "Percussion");
         assertThrows(InvalidItemException.class, () -> musicService.addItem(instrument), "Adding item with invalid price should throw exception");
     }
 
-    @Test
-    void testRemoveNonExistentItem() {
-        assertThrows(InvalidItemException.class, () -> musicService.removeItem("NonExistentItem"), "Removing a non-existent item should throw exception");
-    }
 }

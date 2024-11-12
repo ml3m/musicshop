@@ -11,7 +11,6 @@ public class Config {
         try (InputStream input = Config.class.getClassLoader().getResourceAsStream("config.properties")) {
             if (input == null) {
                 System.out.println("Sorry, unable to find config.properties");
-                // Handle error or use defaults
             } else {
                 properties.load(input);
             }
@@ -21,22 +20,22 @@ public class Config {
     }
 
     public static String getStartMode() {
-        return properties.getProperty("startMode", "production"); // Default to "production" if not set
+        return properties.getProperty("startMode", "production");
     }
     public static boolean getShowTest() {
-        String viewInventory = properties.getProperty("viewInventory", "false"); // Default to "none" if not set
-        return Boolean.parseBoolean(viewInventory); // Parse as boolean
+        String viewInventory = properties.getProperty("viewInventory", "false");
+        return Boolean.parseBoolean(viewInventory);
     }
     public static boolean getViewOrders() {
-        String viewOrders = properties.getProperty("viewOrders", "false"); // Default to "false" if not set
-        return Boolean.parseBoolean(viewOrders); // Parse as boolean
+        String viewOrders = properties.getProperty("viewOrders", "false");
+        return Boolean.parseBoolean(viewOrders);
     }
     public static boolean getAddInventoryItem() {
-        String addInventoryItem = properties.getProperty("addInventoryItem", "false"); // Default to "false" if not set
-        return Boolean.parseBoolean(addInventoryItem); // Parse as boolean
+        String addInventoryItem = properties.getProperty("addInventoryItem", "false");
+        return Boolean.parseBoolean(addInventoryItem);
     }
     public static boolean getConfigAllow() {
-        String configAllow = properties.getProperty("allowConfig", "false"); // Default to "false" if not set
-        return Boolean.parseBoolean(configAllow); // Parse as boolean
+        String configAllow = properties.getProperty("allowConfig", "false");
+        return Boolean.parseBoolean(configAllow);
     }
 }

@@ -5,4 +5,3 @@ public class InvalidItemTypeException extends Exception {
         super(message);
     }
 }
-

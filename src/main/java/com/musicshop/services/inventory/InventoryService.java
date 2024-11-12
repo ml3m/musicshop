@@ -38,7 +38,8 @@ public class InventoryService implements InventoryServiceInterface {
 
         String trimmedName = name.trim().toLowerCase(); // Convert the name to lower case once for comparison
         for (MusicItem item : inventory) {
-            System.out.println("item in inventory name: " + item.getName());
+            // for debuging
+            //System.out.println("item in inventory name: " + item.getName());
             if (item.getName().toLowerCase().equals(trimmedName)) {
                 return item; // Return the first match found
             }

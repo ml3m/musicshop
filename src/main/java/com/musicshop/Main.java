@@ -43,7 +43,6 @@ public class Main {
 
         if (configAllow) {
             if (viewInventory) {
-                System.out.println("\n--- Inventory ---");
                 mainMenu.viewItems();
             }
             if (viewOrders) {
