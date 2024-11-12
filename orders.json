@@ -1,0 +1,20 @@
+[ {
+  "orderId" : "ORD-3b5134eb-36fe-47ab-b004-851ccd7a50a7",
+  "customer" : {
+    "id" : "adfasdfadf",
+    "name" : "mlem"
+  },
+  "cartItems" : [ {
+    "type" : "instrument",
+    "name" : "Guitar classic",
+    "price" : 400.0,
+    "quantity" : 1,
+    "barcode" : "35945a68-5b09-4f8c-bca5-af38af9abf44",
+    "type" : "instrument"
+  } ],
+  "totalAmount" : 400.0,
+  "orderDate" : "2024-11-11T11:20:38.713552",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+} ]

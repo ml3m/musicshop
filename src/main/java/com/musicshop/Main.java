@@ -10,22 +10,18 @@ import com.musicshop.services.user.UserService;
 
 public class Main {
     public static void main(String[] args) {
+
         // Initialize services
         FileStorageService fileStorageService = new FileStorageService();
-        
-        // Core services
         InventoryServiceImpl inventoryService = new InventoryServiceImpl(fileStorageService);
         MusicServiceImpl musicService = new MusicServiceImpl(inventoryService);
         OrderServiceImpl orderService = new OrderServiceImpl();
-        
-        // User management services
         UserService userService = new UserService(fileStorageService);
         AuthenticationService authService = new AuthenticationService(userService);
         AuthenticationService.WorkLogService workLogService = new AuthenticationService.WorkLogService(fileStorageService);
-        
-        // Analytics service
         AnalyticsService analyticsService = new AnalyticsService(orderService, inventoryService);
         
+
         // Initialize main menu with all services
         MainMenu mainMenu = new MainMenu(
             musicService,
@@ -35,7 +31,7 @@ public class Main {
             userService,
             workLogService,
             analyticsService,
-            fileStorageService  // Add this parameter
+            fileStorageService
         );
         
         // Start the application

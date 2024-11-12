@@ -54,6 +54,7 @@ public class MainMenu {
         this.fileStorageService = fileStorageService;
     }
 
+    // start function that checks
     public void start() {
         try {
             while (true) {
@@ -66,8 +67,6 @@ public class MainMenu {
                 }
             }
         } finally {
-            // Ensure proper cleanup
-            // I have no idea
             if (authService.isAuthenticated()) {
                 logout();
             }
@@ -476,8 +475,8 @@ public class MainMenu {
         System.out.println("5. Create Order");
         System.out.println("6. View Orders");
         System.out.println("7. Edit Item");
-        System.out.println("//8. Update Order Status");  // New option for updating order status
-        System.out.println("9. View My Work Hours");
+        //System.out.println("//8. Update Order Status");  // New option for updating order status
+        System.out.println("8. View My Work Hours");
         System.out.println("0. Logout");
 
         int choice = getUserChoice();
@@ -490,7 +489,7 @@ public class MainMenu {
             case 6 -> viewOrders();
             case 7 -> editItem();
             //case 8 -> updateOrderStatus();  // Call the new method
-            case 9 -> viewMyWorkHours();
+            case 8 -> viewMyWorkHours();
             case 0 -> logout();
             default -> System.out.println("Invalid option. Please try again.");
         }

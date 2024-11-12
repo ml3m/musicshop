@@ -76,4 +76,10 @@
   "quantity" : 1,
   "barcode" : "42d60126-0917-47c9-8515-2a9819ce4ef8",
   "type" : "instrument"
+}, {
+  "name" : "Guitar classic",
+  "price" : 400.0,
+  "quantity" : 1,
+  "barcode" : "35945a68-5b09-4f8c-bca5-af38af9abf44",
+  "type" : "instrument"
 } ]
