@@ -494,7 +494,6 @@ public class MainMenu {
 
     private void createOrder() {
         System.out.print("Enter customer ID: ");
-        //scanner.nextLine();  // Consume newline
         String customerId = scanner.nextLine();
         System.out.print("Enter customer name: ");
         String customerName = scanner.nextLine();
@@ -515,7 +514,7 @@ public class MainMenu {
                 addingItems = false;
             } else if (productChoice > 0 && productChoice <= items.size()) {
                 MusicItem item = items.get(productChoice - 1);
-                removeItem(item);
+                removeItem(item);// remove item from inventory
                 order.addItem(item);
                 System.out.println(item.getName() + " added to cart.");
             } else {
@@ -822,5 +821,4 @@ public class MainMenu {
                     " - Hours: " + duration.toHours() +
                     " Minutes: " + duration.toMinutesPart());
         });
-    }
-}
+    } }

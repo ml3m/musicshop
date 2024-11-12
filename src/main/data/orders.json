@@ -378,4 +378,32 @@
   "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
   "processedBy" : "mlem",
   "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-d4106f9c-080f-49af-b3ac-f73450766694",
+  "customer" : {
+    "id" : "fas;dfaf",
+    "name" : "dan"
+  },
+  "cartItems" : [ {
+    "type" : "instrument",
+    "name" : "French Horn",
+    "price" : 220.0,
+    "quantity" : 1,
+    "barcode" : "f4185b52-0b8a-4fd7-91f0-4b087f8c2830",
+    "type" : "instrument"
+  }, {
+    "type" : "album",
+    "name" : "Exile on Main St.",
+    "price" : 65.0,
+    "quantity" : 1,
+    "barcode" : "407ea563-b56c-4c40-9260-fecb2285822d",
+    "artist" : "The Rolling Stones",
+    "type" : "album",
+    "year" : 1972
+  } ],
+  "totalAmount" : 285.0,
+  "orderDate" : "2024-11-13T00:55:15.35282",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
 } ]

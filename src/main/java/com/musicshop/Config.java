@@ -17,8 +17,9 @@ public class Config {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
+        }
 
+    // values are by default strings.
     public static String getStartMode() {
         return properties.getProperty("startMode", "production");
     }

@@ -31,14 +31,6 @@
   "barcode" : "dd8ad9f7-d3f6-4d39-979b-d26756ae7b10",
   "type" : "instrument"
 }, {
-  "name" : "Exile on Main St.",
-  "price" : 65.0,
-  "quantity" : 1,
-  "barcode" : "407ea563-b56c-4c40-9260-fecb2285822d",
-  "artist" : "The Rolling Stones",
-  "type" : "album",
-  "year" : 1972
-}, {
   "name" : "Clarinet",
   "price" : 130.0,
   "quantity" : 1,
@@ -66,12 +58,6 @@
   "artist" : "David Bowie",
   "type" : "album",
   "year" : 1972
-}, {
-  "name" : "French Horn",
-  "price" : 220.0,
-  "quantity" : 1,
-  "barcode" : "f4185b52-0b8a-4fd7-91f0-4b087f8c2830",
-  "type" : "instrument"
 }, {
   "name" : "A Night at the Opera",
   "price" : 50.0,
@@ -104,4 +90,12 @@
   "quantity" : 1,
   "barcode" : "d9942339-fe8b-433d-9e14-ceea34a8e1d9",
   "type" : "instrument"
+}, {
+  "name" : "Fuego",
+  "price" : 10.0,
+  "quantity" : 1,
+  "barcode" : "a61aa47c-fe01-41e8-95f3-0fefd57fd321",
+  "artist" : "Fuego",
+  "type" : "album",
+  "year" : 2000
 } ]

@@ -20,7 +20,7 @@ public class OrderService implements OrderServiceInterface {
     @Override
     public void processOrder(Order order, User employee) {
         order.setProcessor(employee.getId(), employee.getUsername());
-        order.setStatus(OrderStatuses.PROCESSED);
+        order.setStatus(OrderStatuses.PROCESSED); // dafault
         orders.add(order);
         fileStorageService.saveOrders(orders);
         System.out.println("Order processed by employee: " + employee.getUsername());
