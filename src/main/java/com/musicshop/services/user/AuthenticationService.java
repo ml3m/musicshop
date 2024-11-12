@@ -36,17 +36,9 @@ public class AuthenticationService {
         throw new AuthenticationException("Invalid username or password");
     }
 
-    public void logout() {
-        currentUser = null;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public boolean isAuthenticated() {
-        return currentUser != null;
-    }
+    public void logout() { currentUser = null; }
+    public User getCurrentUser() { return currentUser; }
+    public boolean isAuthenticated() { return currentUser != null; }
 
     public static class WorkLogService {
         private final FileStorageService fileStorageService;
@@ -98,12 +90,8 @@ public class AuthenticationService {
             return totalWorkTimeByUser;
         }
 
-        private List<WorkLog> loadWorkLogs() {
-            return fileStorageService.loadWorkLogs();
-        }
+        private List<WorkLog> loadWorkLogs() { return fileStorageService.loadWorkLogs(); }
 
-        private void saveWorkLogs() {
-            fileStorageService.saveWorkLogs(workLogs);
-        }
+        private void saveWorkLogs() { fileStorageService.saveWorkLogs(workLogs); }
     }
 }

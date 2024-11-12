@@ -27,7 +27,5 @@ public class MusicService implements MusicServiceInterface {
         inventoryService.getItems().remove(itemName);
         inventoryService.saveItemsInInventory();
         //System.out.println("Item '" + itemToRemove.getName() + "' has been removed from the inventory.");
-
     }
 }
-

@@ -21,14 +21,6 @@ public class WorkLog {
         this.checkInTime = LocalDateTime.now();
     }
 
-    public void checkOut() {
-        this.checkOutTime = LocalDateTime.now();
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
     public Duration getDuration() {
         if (checkOutTime == null) {
             return Duration.between(checkInTime, LocalDateTime.now());
@@ -36,15 +28,9 @@ public class WorkLog {
         return Duration.between(checkInTime, checkOutTime);
     }
 
-    public LocalDateTime getCheckInTime() {
-        return checkInTime;
-    }
-
-    public LocalDateTime getCheckOutTime() {
-        return checkOutTime;
-    }
-
-    public void setCheckOutTime(LocalDateTime checkOutTime) {
-        this.checkOutTime = checkOutTime;
-    }
+    public void checkOut() { this.checkOutTime = LocalDateTime.now();}
+    public String getUserId() { return userId; }
+    public LocalDateTime getCheckInTime() { return checkInTime; }
+    public LocalDateTime getCheckOutTime() { return checkOutTime; }
+    public void setCheckOutTime(LocalDateTime checkOutTime) { this.checkOutTime = checkOutTime; }
 }

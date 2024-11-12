@@ -20,12 +20,8 @@ public class Instrument extends MusicItem {
     }
 
     @Override
-    public String getType() {
-        return type;
-    }
+    public String getType() { return type; }
 
     @Override
-    public String toString() {
-        return super.toString() + ", Type: " + type;
-    }
+    public String toString() { return super.toString() + ", Type: " + type; }
 }

@@ -41,9 +41,7 @@ public class UserService {
                 .findFirst();
     }
 
-    public List<User> getAllUsers() {
-        return new ArrayList<>(users);
-    }
+    public List<User> getAllUsers() { return new ArrayList<>(users); }
 
     public void updateUser(User user) {
         users.removeIf(u -> u.getId().equals(user.getId()));
@@ -51,11 +49,6 @@ public class UserService {
         saveUsers();
     }
 
-    private List<User> loadUsers() {
-        return fileStorageService.loadUsers();
-    }
-
-    private void saveUsers() {
-        fileStorageService.saveUsers(users);
-    }
+    private List<User> loadUsers() { return fileStorageService.loadUsers(); }
+    private void saveUsers() { fileStorageService.saveUsers(users); }
 }

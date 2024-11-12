@@ -43,35 +43,20 @@ public class Order {
 
     // Getters and setters
     public String getOrderId() { return orderId; }
-
     public void setOrderId(String orderId) { this.orderId = orderId; }
-
     public Customer getCustomer() { return customer; }
-
     public void setCustomer(Customer customer) { this.customer = customer; }
-
     public List<MusicItem> getCartItems() { return cartItems; }
-
     public void setCartItems(List<MusicItem> cartItems) { this.cartItems = cartItems; }
-
     public double getTotalAmount() { return totalAmount; }
-
     public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
-
     public LocalDateTime getOrderDate() { return orderDate; }
-
     public void setOrderDate(LocalDateTime orderDate) { this.orderDate = orderDate; }
-
     public String getProcessedById() { return processedById; }
-
     public void setProcessedById(String processedById) { this.processedById = processedById; }
-
     public String getProcessedBy() { return processedBy; }
-
     public void setProcessedBy(String processedBy) { this.processedBy = processedBy; }
-
     public OrderStatuses getStatus() { return status; }
-
     public void setStatus(OrderStatuses status) { this.status = status; }
 
     // Method to set both processor ID and name at once

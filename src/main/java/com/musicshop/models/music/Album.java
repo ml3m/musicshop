@@ -20,25 +20,14 @@ public class Album extends MusicItem {
         this.artist = artist;
         this.year = year;
         this.type = type;
-
         setBarcode(barcode);
     }
 
     @Override
-    public String getType() {
-        return type;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public int getYear() {
-        return year;
-    }
+    public String getType() { return type; }
+    public String getArtist() { return artist; }
+    public int getYear() { return year; }
 
     @Override
-    public String toString() {
-        return super.toString() + ", Artist: " + artist + ", Year: " + year;
-    }
+    public String toString() { return super.toString() + ", Artist: " + artist + ", Year: " + year; }
 }

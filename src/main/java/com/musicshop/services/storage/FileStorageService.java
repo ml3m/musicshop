@@ -36,11 +36,6 @@ public class FileStorageService {
         logger.setLevel(Level.WARNING);
     }
 
-    // helper method to get the file path
-    private Path getFilePath(String fileName) {
-        return Paths.get(DATA_DIRECTORY, fileName).toAbsolutePath();
-    }
-
     // helper method to load data from a JSON file into a list
     private <T> List<T> loadData(String fileName, TypeReference<List<T>> typeReference) {
         try {
@@ -66,7 +61,7 @@ public class FileStorageService {
     }
 
     ////////////////////////
-    // LOADERS AND SAVERS
+    // LOADERS AND SAVERS //
     ////////////////////////
 
     // Load orders from the orders JSON file
@@ -81,33 +76,25 @@ public class FileStorageService {
         }
         return new ArrayList<>();
     }
+
+    // helper method to get the file path
+    private Path getFilePath(String fileName) { return Paths.get(DATA_DIRECTORY, fileName).toAbsolutePath(); }
     // Save orders to the orders JSON file
-    public void saveOrders(List<Order> orders) {
-        saveData(ORDERS_FILE_NAME, orders);
-    }
+    public void saveOrders(List<Order> orders) { saveData(ORDERS_FILE_NAME, orders); }
     // Load work logs from the work logs JSON file
-    public List<WorkLog> loadWorkLogs() {
-        return loadData(WORKLOGS_FILE_NAME, new TypeReference<>() {
-        });
-    }
+    public List<WorkLog> loadWorkLogs() { return loadData(WORKLOGS_FILE_NAME, new TypeReference<>() {}); }
     // Save work logs to the work logs JSON file
     public void saveWorkLogs(List<WorkLog> workLogs) {
         saveData(WORKLOGS_FILE_NAME, workLogs);
     }
     // Load users from the users JSON file
-    public List<User> loadUsers() {
-        return loadData(USERS_FILE_NAME, new TypeReference<>() {
-        });
-    }
+    public List<User> loadUsers() { return loadData(USERS_FILE_NAME, new TypeReference<>() { }); }
     // Save users to the users JSON file
     public void saveUsers(List<User> users) {
         saveData(USERS_FILE_NAME, users);
     }
     // Load items from the inventory JSON file
-    public List<MusicItem> loadItems() {
-        return loadData(INVENTORY_FILE_NAME, new TypeReference<>() {
-        });
-    }
+    public List<MusicItem> loadItems() { return loadData(INVENTORY_FILE_NAME, new TypeReference<>() { }); }
     // Save items to the inventory JSON file
     public void saveItems(List<MusicItem> items) {
         saveData(INVENTORY_FILE_NAME, items);
