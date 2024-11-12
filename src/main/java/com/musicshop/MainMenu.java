@@ -169,7 +169,6 @@ public class MainMenu {
         Boolean inStock = switch (stockChoice) {
             case 1 -> true;
             case 2 -> false;
-            case 3 -> null;
             default -> null;
         };
 
@@ -342,7 +341,7 @@ public class MainMenu {
     }
 
     private String generateBarcode() {
-        // Simple barcode generation example: can use libraries like ZXing for actual barcode generation
+        // Simple barcode generation example: can use libraries like Zing for actual barcode generation
         return UUID.randomUUID().toString();  // Or any logic to generate a unique barcode
     }
 
@@ -420,7 +419,7 @@ public class MainMenu {
         System.out.println("Enter the name or barcode of the item to remove:");
 
         String input = scanner.nextLine().trim();
-        MusicItem itemToRemove = null;
+        MusicItem itemToRemove;
 
         // Try finding the item by name first
         itemToRemove = inventoryService.findItemByName(input);
