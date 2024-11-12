@@ -1,0 +1,218 @@
+.
+├── IDEAS-TO-BE-IMPLEMENTED.md
+├── README.md
+├── Reports
+│   ├── monthly_report_20241110_141055.pdf
+│   ├── monthly_report_20241110_145206.pdf
+│   ├── monthly_report_20241110_145533.pdf
+│   ├── monthly_report_20241110_151742.pdf
+│   ├── monthly_report_20241110_162555.pdf
+│   └── monthly_report_20241111_112222.pdf
+├── WHAT-IS-TO-BE-TESTED-FOR-VALIDATION.MD
+├── orders.json
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── data
+│   │   │   ├── inventory.json
+│   │   │   ├── orders.json
+│   │   │   ├── users.json
+│   │   │   └── worklogs.json
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── musicshop
+│   │   │           ├── Config.java
+│   │   │           ├── Main.java
+│   │   │           ├── MainMenu.java
+│   │   │           ├── exceptions
+│   │   │           │   ├── AuthenticationException.java
+│   │   │           │   ├── CustomerNotFoundException.java
+│   │   │           │   └── InvalidItemException.java
+│   │   │           ├── models
+│   │   │           │   ├── music
+│   │   │           │   │   ├── Album.java
+│   │   │           │   │   ├── Instrument.java
+│   │   │           │   │   ├── MusicItem.java
+│   │   │           │   │   └── SearchCriteria.java
+│   │   │           │   ├── sales
+│   │   │           │   │   ├── Order.java
+│   │   │           │   │   ├── OrderStatuses.java
+│   │   │           │   │   └── SalesReport.java
+│   │   │           │   └── user
+│   │   │           │       ├── Customer.java
+│   │   │           │       ├── User.java
+│   │   │           │       ├── UserRole.java
+│   │   │           │       └── WorkLog.java
+│   │   │           └── services
+│   │   │               ├── analytics_dashboard
+│   │   │               │   ├── AnalyticsService.java
+│   │   │               │   └── ReportExportService.java
+│   │   │               ├── inventory
+│   │   │               │   ├── InventoryService.java
+│   │   │               │   └── InventoryServiceImpl.java
+│   │   │               ├── music
+│   │   │               │   ├── MusicService.java
+│   │   │               │   └── MusicServiceInterface.java
+│   │   │               ├── order
+│   │   │               │   ├── OrderService.java
+│   │   │               │   └── OrderServiceInterface.java
+│   │   │               ├── storage
+│   │   │               │   └── FileStorageService.java
+│   │   │               └── user
+│   │   │                   ├── AuthenticationService.java
+│   │   │                   └── UserService.java
+│   │   └── resources
+│   │       ├── config.properties
+│   │       ├── log4j.properties
+│   │       └── logging.properties
+│   └── test
+│       └── java
+│           └── com
+│               └── musicshop
+│                   ├── models
+│                   │   ├── OrderTest.java
+│                   │   ├── WorkLogTest.java
+│                   │   ├── music
+│                   │   │   ├── AlbumTest.java
+│                   │   │   ├── InstrumentTest.java
+│                   │   │   ├── MusicItemTest.java
+│                   │   │   └── SearchCriteriaTest.java
+│                   │   └── user
+│                   │       ├── CustomerTest.java
+│                   │       ├── UserRoleTest.java
+│                   │       └── UserTest.java
+│                   └── services
+│                       ├── FileStorageServiceTest.java
+│                       └── MusicServiceInterfaceImplTest.java
+├── target
+│   ├── classes
+│   │   ├── com
+│   │   │   └── musicshop
+│   │   │       ├── Config.class
+│   │   │       ├── Main.class
+│   │   │       ├── MainMenu$1.class
+│   │   │       ├── MainMenu.class
+│   │   │       ├── exceptions
+│   │   │       │   ├── AuthenticationException.class
+│   │   │       │   ├── CustomerNotFoundException.class
+│   │   │       │   └── InvalidItemException.class
+│   │   │       ├── models
+│   │   │       │   ├── music
+│   │   │       │   │   ├── Album.class
+│   │   │       │   │   ├── Instrument.class
+│   │   │       │   │   ├── MusicItem.class
+│   │   │       │   │   └── SearchCriteria.class
+│   │   │       │   ├── sales
+│   │   │       │   │   ├── Order.class
+│   │   │       │   │   ├── OrderStatuses.class
+│   │   │       │   │   └── SalesReport.class
+│   │   │       │   └── user
+│   │   │       │       ├── Customer.class
+│   │   │       │       ├── User.class
+│   │   │       │       ├── UserRole.class
+│   │   │       │       └── WorkLog.class
+│   │   │       └── services
+│   │   │           ├── analytics_dashboard
+│   │   │           │   ├── AnalyticsService.class
+│   │   │           │   └── ReportExportService.class
+│   │   │           ├── inventory
+│   │   │           │   ├── InventoryService.class
+│   │   │           │   └── InventoryServiceImpl.class
+│   │   │           ├── music
+│   │   │           │   ├── MusicService.class
+│   │   │           │   └── MusicServiceInterface.class
+│   │   │           ├── order
+│   │   │           │   ├── OrderService.class
+│   │   │           │   ├── OrderServiceInterface.class
+│   │   │           │   └── diagram.png
+│   │   │           ├── storage
+│   │   │           │   ├── FileStorageService$1.class
+│   │   │           │   ├── FileStorageService$2.class
+│   │   │           │   ├── FileStorageService$3.class
+│   │   │           │   └── FileStorageService.class
+│   │   │           └── user
+│   │   │               ├── AuthenticationService$WorkLogService.class
+│   │   │               ├── AuthenticationService.class
+│   │   │               └── UserService.class
+│   │   ├── config.properties
+│   │   ├── log4j.properties
+│   │   └── logging.properties
+│   ├── generated-sources
+│   │   └── annotations
+│   ├── generated-test-sources
+│   │   └── test-annotations
+│   ├── maven-archiver
+│   │   └── pom.properties
+│   ├── maven-status
+│   │   └── maven-compiler-plugin
+│   │       ├── compile
+│   │       │   └── default-compile
+│   │       │       ├── createdFiles.lst
+│   │       │       └── inputFiles.lst
+│   │       └── testCompile
+│   │           └── default-testCompile
+│   │               ├── createdFiles.lst
+│   │               └── inputFiles.lst
+│   ├── musicshop_midterm-1.0-SNAPSHOT.jar
+│   ├── surefire-reports
+│   │   ├── 2024-11-07T16-32-38_930.dumpstream
+│   │   ├── 2024-11-07T16-32-50_784.dumpstream
+│   │   ├── 2024-11-07T16-33-59_289-jvmRun1.dumpstream
+│   │   ├── 2024-11-07T16-33-59_289.dumpstream
+│   │   ├── 2024-11-07T16-37-36_582-jvmRun1.dumpstream
+│   │   ├── 2024-11-07T16-37-36_582.dumpstream
+│   │   ├── 2024-11-07T16-39-04_754.dumpstream
+│   │   ├── TEST-com.musicshop.MainMenuTest.xml
+│   │   ├── TEST-com.musicshop.models.AlbumTest.xml
+│   │   ├── TEST-com.musicshop.models.InstrumentTest.xml
+│   │   ├── TEST-com.musicshop.models.OrderTest.xml
+│   │   ├── TEST-com.musicshop.models.SearchCriteriaTest.xml
+│   │   ├── TEST-com.musicshop.models.UserTest.xml
+│   │   ├── TEST-com.musicshop.models.WorkLogTest.xml
+│   │   ├── TEST-com.musicshop.models.music.AlbumTest.xml
+│   │   ├── TEST-com.musicshop.models.music.InstrumentTest.xml
+│   │   ├── TEST-com.musicshop.models.music.MusicItemTest.xml
+│   │   ├── TEST-com.musicshop.models.music.SearchCriteriaTest.xml
+│   │   ├── TEST-com.musicshop.models.user.CustomerTest.xml
+│   │   ├── TEST-com.musicshop.models.user.UserRoleTest.xml
+│   │   ├── TEST-com.musicshop.models.user.UserTest.xml
+│   │   ├── TEST-com.musicshop.services.FileStorageServiceTest.xml
+│   │   ├── TEST-com.musicshop.services.MusicServiceImplTest.xml
+│   │   ├── com.musicshop.MainMenuTest.txt
+│   │   ├── com.musicshop.models.AlbumTest.txt
+│   │   ├── com.musicshop.models.InstrumentTest.txt
+│   │   ├── com.musicshop.models.OrderTest.txt
+│   │   ├── com.musicshop.models.SearchCriteriaTest.txt
+│   │   ├── com.musicshop.models.UserTest.txt
+│   │   ├── com.musicshop.models.WorkLogTest.txt
+│   │   ├── com.musicshop.models.music.AlbumTest.txt
+│   │   ├── com.musicshop.models.music.InstrumentTest.txt
+│   │   ├── com.musicshop.models.music.MusicItemTest.txt
+│   │   ├── com.musicshop.models.music.SearchCriteriaTest.txt
+│   │   ├── com.musicshop.models.user.CustomerTest.txt
+│   │   ├── com.musicshop.models.user.UserRoleTest.txt
+│   │   ├── com.musicshop.models.user.UserTest.txt
+│   │   ├── com.musicshop.services.FileStorageServiceTest.txt
+│   │   └── com.musicshop.services.MusicServiceImplTest.txt
+│   └── test-classes
+│       └── com
+│           └── musicshop
+│               ├── models
+│               │   ├── OrderTest.class
+│               │   ├── WorkLogTest.class
+│               │   ├── music
+│               │   │   ├── AlbumTest.class
+│               │   │   ├── InstrumentTest.class
+│               │   │   ├── MusicItemTest$TestMusicItem.class
+│               │   │   ├── MusicItemTest.class
+│               │   │   └── SearchCriteriaTest.class
+│               │   └── user
+│               │       ├── CustomerTest.class
+│               │       ├── UserRoleTest.class
+│               │       └── UserTest.class
+│               └── services
+│                   ├── FileStorageServiceTest.class
+│                   └── MusicServiceImplTest.class
+└── tree
+
+64 directories, 152 files

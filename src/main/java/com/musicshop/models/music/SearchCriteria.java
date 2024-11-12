@@ -20,39 +20,20 @@ public class SearchCriteria {
         return keyword;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
     public Double getMinPrice() {
         return minPrice;
-    }
-
-    public void setMinPrice(Double minPrice) {
-        this.minPrice = minPrice;
     }
 
     public Double getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(Double maxPrice) {
-        this.maxPrice = maxPrice;
-    }
-
     public String getItemType() {
         return itemType;
-    }
-
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
     }
 
     public Boolean getInStock() {
         return inStock;
     }
 
-    public void setInStock(Boolean inStock) {
-        this.inStock = inStock;
-    }
 }

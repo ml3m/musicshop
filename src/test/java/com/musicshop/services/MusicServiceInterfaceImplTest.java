@@ -4,22 +4,22 @@ import com.musicshop.models.music.Album;
 import com.musicshop.models.music.Instrument;
 import com.musicshop.models.music.MusicItem;
 import com.musicshop.exceptions.InvalidItemException;
-import com.musicshop.services.inventory.InventoryServiceImpl;
-import com.musicshop.services.music.MusicServiceImpl;
+import com.musicshop.services.inventory.InventoryService;
+import com.musicshop.services.music.MusicService;
 import com.musicshop.services.storage.FileStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MusicServiceImplTest {
+class MusicServiceInterfaceImplTest {
 
-    private MusicServiceImpl musicService;
-    private InventoryServiceImpl inventoryService;
+    private MusicService musicService;
+    private InventoryService inventoryService;
 
     @BeforeEach
     void setUp() {
-        inventoryService = new InventoryServiceImpl(new FileStorageService());
-        musicService = new MusicServiceImpl(inventoryService);
+        inventoryService = new InventoryService(new FileStorageService());
+        musicService = new MusicService(inventoryService);
     }
 
     @Test

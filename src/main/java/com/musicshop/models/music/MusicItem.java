@@ -2,6 +2,7 @@ package com.musicshop.models.music;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -17,8 +18,10 @@ public abstract class MusicItem {
     protected String name;
     protected double price;
     protected int quantity;
+
     protected String barcode;
 
+    // default constructor is required for json
     public MusicItem() {
     }
 
@@ -30,7 +33,6 @@ public abstract class MusicItem {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.barcode = barcode;
     }
 
     public String getBarcode() {

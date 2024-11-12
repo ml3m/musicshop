@@ -19,15 +19,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileStorageService {
-    private static final Logger logger = Logger.getLogger(FileStorageService.class.getName());
-
-    // Update to point to the correct directory for your JSON files
-    private static final String DATA_DIRECTORY = "src/main/data";  // Pointing to 'data' folder
+    private static final String DATA_DIRECTORY = "src/main/data";
     private static final String INVENTORY_FILE_NAME = "inventory.json";
     private static final String ORDERS_FILE_NAME = "orders.json";
     private static final String USERS_FILE_NAME = "users.json";
     private static final String WORKLOGS_FILE_NAME = "worklogs.json";
 
+    private static final Logger logger = Logger.getLogger(FileStorageService.class.getName());
     private final ObjectMapper objectMapper;
 
     public FileStorageService() {
@@ -35,16 +33,15 @@ public class FileStorageService {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
         logger.setLevel(Level.WARNING);
     }
 
-    // Helper method to get the file path
+    // helper method to get the file path
     private Path getFilePath(String fileName) {
         return Paths.get(DATA_DIRECTORY, fileName).toAbsolutePath();
     }
 
-    // Helper method to load data from a JSON file into a list
+    // helper method to load data from a JSON file into a list
     private <T> List<T> loadData(String fileName, TypeReference<List<T>> typeReference) {
         try {
             File file = getFilePath(fileName).toFile();
@@ -58,7 +55,7 @@ public class FileStorageService {
         }
     }
 
-    // Helper method to save data to a JSON file
+    // helper method to save data to a JSON file
     private <T> void saveData(String fileName, List<T> data) {
         try {
             objectMapper.writeValue(getFilePath(fileName).toFile(), data);
@@ -68,60 +65,9 @@ public class FileStorageService {
         }
     }
 
-    // Load work logs from the work logs JSON file
-    public List<WorkLog> loadWorkLogs() {
-        return loadData(WORKLOGS_FILE_NAME, new TypeReference<>() {
-        });
-    }
-
-    // Save work logs to the work logs JSON file
-    public void saveWorkLogs(List<WorkLog> workLogs) {
-        saveData(WORKLOGS_FILE_NAME, workLogs);
-    }
-
-    // Load users from the users JSON file
-    public List<User> loadUsers() {
-        return loadData(USERS_FILE_NAME, new TypeReference<>() {
-        });
-    }
-
-    // Save users to the users JSON file
-    public void saveUsers(List<User> users) {
-        saveData(USERS_FILE_NAME, users);
-    }
-
-    // Load items from the inventory JSON file
-    public List<MusicItem> loadItems() {
-        return loadData(INVENTORY_FILE_NAME, new TypeReference<>() {
-        });
-    }
-
-    // Save items to the inventory JSON file
-    public void saveItems(List<MusicItem> items) {
-        saveData(INVENTORY_FILE_NAME, items);
-    }
-
-    // Append a single item to the inventory JSON file
-    public void appendItem(MusicItem item) {
-        try {
-            List<MusicItem> items = loadItems();
-            items.add(item);
-            saveItems(items);
-            logger.info("Item appended to inventory.");
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error appending item to inventory", e);
-        }
-    }
-
-    // Clear all items in the inventory JSON file
-    public void clearAllItems() {
-        try {
-            saveItems(new ArrayList<>());
-            logger.info("All items cleared from inventory.");
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error clearing inventory", e);
-        }
-    }
+    ////////////////////////
+    // LOADERS AND SAVERS
+    ////////////////////////
 
     // Load orders from the orders JSON file
     public List<Order> loadOrders() {
@@ -135,9 +81,35 @@ public class FileStorageService {
         }
         return new ArrayList<>();
     }
-
     // Save orders to the orders JSON file
     public void saveOrders(List<Order> orders) {
         saveData(ORDERS_FILE_NAME, orders);
+    }
+    // Load work logs from the work logs JSON file
+    public List<WorkLog> loadWorkLogs() {
+        return loadData(WORKLOGS_FILE_NAME, new TypeReference<>() {
+        });
+    }
+    // Save work logs to the work logs JSON file
+    public void saveWorkLogs(List<WorkLog> workLogs) {
+        saveData(WORKLOGS_FILE_NAME, workLogs);
+    }
+    // Load users from the users JSON file
+    public List<User> loadUsers() {
+        return loadData(USERS_FILE_NAME, new TypeReference<>() {
+        });
+    }
+    // Save users to the users JSON file
+    public void saveUsers(List<User> users) {
+        saveData(USERS_FILE_NAME, users);
+    }
+    // Load items from the inventory JSON file
+    public List<MusicItem> loadItems() {
+        return loadData(INVENTORY_FILE_NAME, new TypeReference<>() {
+        });
+    }
+    // Save items to the inventory JSON file
+    public void saveItems(List<MusicItem> items) {
+        saveData(INVENTORY_FILE_NAME, items);
     }
 }

@@ -3,7 +3,7 @@ package com.musicshop.services.analytics_dashboard;
 import com.musicshop.models.music.MusicItem;
 import com.musicshop.models.sales.Order;
 import com.musicshop.models.sales.SalesReport;
-import com.musicshop.services.inventory.InventoryService;
+import com.musicshop.services.inventory.InventoryServiceInterface;
 import com.musicshop.services.order.OrderServiceInterface;
 
 import java.time.*;
@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class AnalyticsService {
     private final OrderServiceInterface orderService;
-    private final InventoryService inventoryService;
+    private final InventoryServiceInterface inventoryService;
 
-    public AnalyticsService(OrderServiceInterface orderService, InventoryService inventoryService) {
+    public AnalyticsService(OrderServiceInterface orderService, InventoryServiceInterface inventoryService) {
         this.orderService = orderService;
         this.inventoryService = inventoryService;
     }
@@ -80,11 +80,5 @@ public class AnalyticsService {
                         Long::intValue
                     )
                 ));
-    }
-
-    public List<MusicItem> getLowStockItems(int threshold) {
-        // This would require adding stock quantity to MusicItem
-        // For now, just return empty list
-        return new ArrayList<>();
     }
 }

@@ -10,9 +10,10 @@ public class WorkLog {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
 
-    @JsonIgnore // json ignore basically
+    @JsonIgnore
     private transient Duration duration;
 
+    // json requires
     public WorkLog(){}
 
     public WorkLog(String userId) {
@@ -35,22 +36,12 @@ public class WorkLog {
         return Duration.between(checkInTime, checkOutTime);
     }
 
-    // Add getters for serialization if needed
     public LocalDateTime getCheckInTime() {
         return checkInTime;
     }
 
     public LocalDateTime getCheckOutTime() {
         return checkOutTime;
-    }
-
-    // Add setters for deserialization if needed
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setCheckInTime(LocalDateTime checkInTime) {
-        this.checkInTime = checkInTime;
     }
 
     public void setCheckOutTime(LocalDateTime checkOutTime) {

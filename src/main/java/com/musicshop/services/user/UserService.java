@@ -20,14 +20,13 @@ public class UserService {
         }
     }
 
-    public User createUser(String username, String password, UserRole role) {
+    public void createUser(String username, String password, UserRole role) {
         if (findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("Username already exists");
         }
         User user = new User(username, password, role);
         users.add(user);
         saveUsers();
-        return user;
     }
 
     public Optional<User> findByUsername(String username) {
@@ -49,12 +48,6 @@ public class UserService {
     public void updateUser(User user) {
         users.removeIf(u -> u.getId().equals(user.getId()));
         users.add(user);
-        saveUsers();
-    }
-
-    // not used.
-    public void deleteUser(String userId) {
-        users.removeIf(u -> u.getId().equals(userId));
         saveUsers();
     }
 

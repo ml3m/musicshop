@@ -3,6 +3,7 @@ package com.musicshop.models.music;
 public class Instrument extends MusicItem {
     private final String type;
 
+    // default constructor is required for json
     public Instrument() {
         super(null, 0.0);
         this.type = "instrument";

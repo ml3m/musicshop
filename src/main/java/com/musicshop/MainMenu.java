@@ -11,9 +11,9 @@ import com.musicshop.models.user.User;
 import com.musicshop.models.user.UserRole;
 import com.musicshop.exceptions.*;
 import com.musicshop.services.analytics_dashboard.AnalyticsService;
-import com.musicshop.services.export.ReportExportService;
-import com.musicshop.services.inventory.InventoryServiceImpl;
-import com.musicshop.services.music.MusicServiceImpl;
+import com.musicshop.services.analytics_dashboard.ReportExportService;
+import com.musicshop.services.inventory.InventoryService;
+import com.musicshop.services.music.MusicService;
 import com.musicshop.services.order.OrderServiceInterface;
 import com.musicshop.services.storage.FileStorageService;
 import com.musicshop.services.user.AuthenticationService;
@@ -27,8 +27,8 @@ import java.time.LocalDateTime;
 import java.io.Console;
 
 public class MainMenu {
-    private final MusicServiceImpl musicService;
-    private final InventoryServiceImpl inventoryService;
+    private final MusicService musicService;
+    private final InventoryService inventoryService;
     private final OrderServiceInterface orderService;
     private final AuthenticationService authService;
     private final UserService userService;
@@ -39,10 +39,10 @@ public class MainMenu {
 
     private final FileStorageService fileStorageService;
 
-    public MainMenu(MusicServiceImpl musicService, InventoryServiceImpl inventoryService, 
-            OrderServiceInterface orderService, AuthenticationService authService,
-            UserService userService, AuthenticationService.WorkLogService workLogService,
-            AnalyticsService analyticsService, FileStorageService fileStorageService) {
+    public MainMenu(MusicService musicService, InventoryService inventoryService,
+                    OrderServiceInterface orderService, AuthenticationService authService,
+                    UserService userService, AuthenticationService.WorkLogService workLogService,
+                    AnalyticsService analyticsService, FileStorageService fileStorageService) {
         this.musicService = musicService;
         this.inventoryService = inventoryService;
         this.orderService = orderService;
@@ -321,7 +321,7 @@ public class MainMenu {
         }
     }
 
-    private void addItem() {
+    public void addItem() {
         System.out.println("Choose item type: 1. Instrument  2. Album");
         int type = getUserChoice();
 
@@ -363,9 +363,9 @@ public class MainMenu {
 
                 System.out.println("Album added to inventory with barcode: " + barcode);
             } else {
-                System.out.println("Invalid item type selected.");
+                throw new InvalidItemTypeException("Invalid item type selected.");
             }
-        } catch (InvalidItemException | InputMismatchException e) {
+        } catch (InvalidItemTypeException | InvalidItemException | InputMismatchException e) {
             System.out.println("Failed to add item: " + e.getMessage());
             scanner.nextLine();  // Clear invalid input if any
         }
@@ -384,7 +384,7 @@ public class MainMenu {
         }
     }
 
-    private void viewItems() {
+    public void viewItems() {
         List<MusicItem> items = inventoryService.getItems();
         if (items.isEmpty()) {
             System.out.println("Inventory is empty.");
@@ -426,16 +426,15 @@ public class MainMenu {
 
         User currentEmployeeProcessingOrder = authService.getCurrentUser();
 
-        if (currentEmployeeProcessingOrder != null){
+        if (currentEmployeeProcessingOrder != null) {
             orderService.processOrder(order, currentEmployeeProcessingOrder);
-            orderService.saveOrders(orderService.getAllOrders());
             System.out.println("Order processed and saved successfully.");
         } else {
             System.out.println("Error: No authenticated user to process the order.");
         }
     }
 
-    private void viewOrders() {
+    public void viewOrders() {
         List<Order> orders = orderService.getAllOrders();
         if (orders.isEmpty()) {
             System.out.println("No orders found.");

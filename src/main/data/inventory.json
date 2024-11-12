@@ -1,13 +1,13 @@
 [ {
   "name" : "Street Symphony",
   "price" : 1100.0,
-  "quantity" : 3,
+  "quantity" : 1,
   "barcode" : "4902834709238472093847209384720834",
   "type" : "instrument"
 }, {
   "name" : "Sadboy Suite",
   "price" : 30.0,
-  "quantity" : 6,
+  "quantity" : 1,
   "barcode" : "1982347283749823749823749823748932",
   "artist" : "Yung Lean",
   "type" : "album",
@@ -15,21 +15,21 @@
 }, {
   "name" : "Drill Masterpiece",
   "price" : 45.0,
-  "quantity" : 3,
-  "barcode" : null,
+  "quantity" : 1,
+  "barcode" : "23429038423402389047231849237482343",
   "artist" : "Test Artist",
   "type" : "album",
   "year" : 2020
 }, {
   "name" : "Crystal Pluck",
   "price" : 1500.0,
-  "quantity" : 2,
+  "quantity" : 1,
   "barcode" : "9823749823749823749823749823749283",
   "type" : "instrument"
 }, {
   "name" : "Skater Paradise",
   "price" : 27.0,
-  "quantity" : 9,
+  "quantity" : 1,
   "barcode" : "8273498273498237498237498273984739",
   "artist" : "Tyler, The Creator",
   "type" : "album",
@@ -37,7 +37,7 @@
 }, {
   "name" : "Retro Funk",
   "price" : 26.0,
-  "quantity" : 7,
+  "quantity" : 1,
   "barcode" : "1239082340928347298347293847293842",
   "artist" : "Real Live",
   "type" : "album",
@@ -45,13 +45,13 @@
 }, {
   "name" : "Tropical Synthwave",
   "price" : 2100.0,
-  "quantity" : 3,
+  "quantity" : 1,
   "barcode" : "3984720938472398472398472093847923",
   "type" : "instrument"
 }, {
   "name" : "Lean Serenade",
   "price" : 25.0,
-  "quantity" : 8,
+  "quantity" : 1,
   "barcode" : "8374982374983274982374983274982342",
   "artist" : "Yung Lean",
   "type" : "album",
@@ -59,7 +59,7 @@
 }, {
   "name" : "Realist Realms",
   "price" : 34.0,
-  "quantity" : 6,
+  "quantity" : 1,
   "barcode" : "1239847230948273049827340982734098",
   "artist" : "Real Live",
   "type" : "album",
@@ -81,5 +81,23 @@
   "price" : 400.0,
   "quantity" : 1,
   "barcode" : "35945a68-5b09-4f8c-bca5-af38af9abf44",
+  "type" : "instrument"
+}, {
+  "name" : "musicuta",
+  "price" : 188.0,
+  "quantity" : 1,
+  "barcode" : "40c5aa6e-1a72-4c5e-927e-e1a7950d9484",
+  "type" : "instrument"
+}, {
+  "name" : "mlemaa",
+  "price" : 123.0,
+  "quantity" : 1,
+  "barcode" : "4542a5b6-4d65-4174-9482-6fd28ab4cdf7",
+  "type" : "instrument"
+}, {
+  "name" : "guitar small",
+  "price" : 100.0,
+  "quantity" : 1,
+  "barcode" : "8398e034-9c48-4eed-b324-ff09004fbf18",
   "type" : "instrument"
 } ]

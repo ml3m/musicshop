@@ -137,14 +137,14 @@
     "type" : "instrument",
     "name" : "Tropical Synthwave",
     "price" : 2100.0,
-    "quantity" : 3,
+    "quantity" : 1,
     "barcode" : "3984720938472398472398472093847923",
     "type" : "instrument"
   }, {
     "type" : "instrument",
     "name" : "Street Symphony",
     "price" : 1100.0,
-    "quantity" : 3,
+    "quantity" : 1,
     "barcode" : "4902834709238472093847209384720834",
     "type" : "instrument"
   }, {
@@ -157,6 +157,182 @@
   } ],
   "totalAmount" : 4080.0,
   "orderDate" : "2024-11-10T13:45:53.976082",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-2fd2cc24-8535-418c-9a38-ba350d856c60",
+  "customer" : {
+    "id" : "123123",
+    "name" : "test"
+  },
+  "cartItems" : [ {
+    "type" : "instrument",
+    "name" : "musicuta",
+    "price" : 188.0,
+    "quantity" : 1,
+    "barcode" : "40c5aa6e-1a72-4c5e-927e-e1a7950d9484",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "Crystal Pluck",
+    "price" : 1500.0,
+    "quantity" : 1,
+    "barcode" : "9823749823749823749823749823749283",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "Street Symphony",
+    "price" : 1100.0,
+    "quantity" : 1,
+    "barcode" : "4902834709238472093847209384720834",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "Street Symphony",
+    "price" : 1100.0,
+    "quantity" : 1,
+    "barcode" : "4902834709238472093847209384720834",
+    "type" : "instrument"
+  } ],
+  "totalAmount" : 3888.0,
+  "orderDate" : "2024-11-12T19:24:12.048379",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-bf1553c6-ebb6-4f5f-83dc-261d5dc56b72",
+  "customer" : {
+    "id" : "fadfaf",
+    "name" : "test2"
+  },
+  "cartItems" : [ {
+    "type" : "instrument",
+    "name" : "musicuta",
+    "price" : 188.0,
+    "quantity" : 1,
+    "barcode" : "40c5aa6e-1a72-4c5e-927e-e1a7950d9484",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "musicuta",
+    "price" : 188.0,
+    "quantity" : 1,
+    "barcode" : "40c5aa6e-1a72-4c5e-927e-e1a7950d9484",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "Bass Guitar",
+    "price" : 360.0,
+    "quantity" : 1,
+    "barcode" : "42d60126-0917-47c9-8515-2a9819ce4ef8",
+    "type" : "instrument"
+  } ],
+  "totalAmount" : 736.0,
+  "orderDate" : "2024-11-12T19:26:40.263488",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-73d80e73-f7bc-4c65-add6-3abac0a4c748",
+  "customer" : {
+    "id" : "fadfa",
+    "name" : "testt"
+  },
+  "cartItems" : [ {
+    "type" : "instrument",
+    "name" : "Street Symphony",
+    "price" : 1100.0,
+    "quantity" : 1,
+    "barcode" : "4902834709238472093847209384720834",
+    "type" : "instrument"
+  }, {
+    "type" : "instrument",
+    "name" : "Street Symphony",
+    "price" : 1100.0,
+    "quantity" : 1,
+    "barcode" : "4902834709238472093847209384720834",
+    "type" : "instrument"
+  }, {
+    "type" : "album",
+    "name" : "Realist Realms",
+    "price" : 34.0,
+    "quantity" : 1,
+    "barcode" : "1239847230948273049827340982734098",
+    "artist" : "Real Live",
+    "type" : "album",
+    "year" : 2024
+  } ],
+  "totalAmount" : 2234.0,
+  "orderDate" : "2024-11-12T19:27:21.688279",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-b7e7f641-809b-4c1e-94b6-6f8380621e8d",
+  "customer" : {
+    "id" : "adfafdsfa",
+    "name" : "testquantity"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Skater Paradise",
+    "price" : 27.0,
+    "quantity" : 1,
+    "barcode" : "8273498273498237498237498273984739",
+    "artist" : "Tyler, The Creator",
+    "type" : "album",
+    "year" : 2018
+  }, {
+    "type" : "instrument",
+    "name" : "Tropical Synthwave",
+    "price" : 2100.0,
+    "quantity" : 1,
+    "barcode" : "3984720938472398472398472093847923",
+    "type" : "instrument"
+  } ],
+  "totalAmount" : 2127.0,
+  "orderDate" : "2024-11-12T19:33:34.215632",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-d58e01e5-9716-4db2-b0f5-9b2efbe4e0f4",
+  "customer" : {
+    "id" : "1sfakldf",
+    "name" : "teststatuses"
+  },
+  "cartItems" : [ {
+    "type" : "instrument",
+    "name" : "guitar small",
+    "price" : 100.0,
+    "quantity" : 1,
+    "barcode" : "8398e034-9c48-4eed-b324-ff09004fbf18",
+    "type" : "instrument"
+  } ],
+  "totalAmount" : 100.0,
+  "orderDate" : "2024-11-12T20:30:22.077822",
+  "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
+  "processedBy" : "mlem",
+  "status" : "PROCESSED"
+}, {
+  "orderId" : "ORD-fd727813-2dce-4357-98c4-4e7e56e5927f",
+  "customer" : {
+    "id" : "fasdfaf",
+    "name" : "lol"
+  },
+  "cartItems" : [ {
+    "type" : "album",
+    "name" : "Skater Paradise",
+    "price" : 27.0,
+    "quantity" : 1,
+    "barcode" : "8273498273498237498237498273984739",
+    "artist" : "Tyler, The Creator",
+    "type" : "album",
+    "year" : 2018
+  } ],
+  "totalAmount" : 27.0,
+  "orderDate" : "2024-11-12T21:18:15.826229",
   "processedById" : "96c5062b-1842-4cda-8966-3df995d34da7",
   "processedBy" : "mlem",
   "status" : "PROCESSED"

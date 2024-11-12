@@ -2,6 +2,7 @@ package com.musicshop.models.sales;
 
 import com.musicshop.models.music.MusicItem;
 import com.musicshop.models.user.Customer;
+import com.musicshop.models.sales.OrderStatuses;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,14 +17,7 @@ public class Order {
     private LocalDateTime orderDate;
     private String processedById;  // User ID of the employee who processed the order
     private String processedBy;    // Name of the employee who processed the order
-    private OrderStatus status;
-
-    public enum OrderStatus {
-        PENDING,
-        PROCESSED,
-        COMPLETED,
-        CANCELLED
-    }
+    private OrderStatuses status;
 
     // Default constructor (needed for Jackson to deserialize)
     public Order() {
@@ -35,7 +29,7 @@ public class Order {
         this.cartItems = new ArrayList<>();
         this.totalAmount = 0.0;
         this.orderDate = LocalDateTime.now();
-        this.status = OrderStatus.PENDING;
+        this.status = OrderStatuses.PENDING;
     }
 
     public void addItem(MusicItem item) {
@@ -76,9 +70,9 @@ public class Order {
 
     public void setProcessedBy(String processedBy) { this.processedBy = processedBy; }
 
-    public OrderStatus getStatus() { return status; }
+    public OrderStatuses getStatus() { return status; }
 
-    public void setStatus(OrderStatus status) { this.status = status; }
+    public void setStatus(OrderStatuses status) { this.status = status; }
 
     // Method to set both processor ID and name at once
     public void setProcessor(String id, String name) {

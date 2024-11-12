@@ -5,6 +5,7 @@ public class Album extends MusicItem {
     private final String type;
     private int year;
 
+    // default constructor is required for json
     public Album() {
         super(null, 0.0);
         this.type = "album";
@@ -30,14 +31,6 @@ public class Album extends MusicItem {
 
     public String getArtist() {
         return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public int getYear() {
