@@ -54,6 +54,7 @@ public class MainMenu {
         this.fileStorageService = fileStorageService;
     }
 
+
     // ===============================
     // Core Application Flow Methods
     // ===============================
@@ -133,6 +134,7 @@ public class MainMenu {
             }
         }
     }
+
 
     // ===============================
     // Menu Navigation Methods
@@ -230,6 +232,7 @@ public class MainMenu {
             }
         }
     }
+
 
     // ===============================
     // Inventory Management Methods
@@ -531,6 +534,7 @@ public class MainMenu {
                 System.out.println(type + ": " + count + " items"));
     }
 
+
     // ===============================
     // Barcode Related Methods
     // ===============================
@@ -556,6 +560,7 @@ public class MainMenu {
             return generateBarcode();  // Default to random barcode if invalid input
         }
     }
+
 
     // ===============================
     // Order Management Methods

@@ -37,7 +37,7 @@ public class User {
     // Prevents double hashing by checking if the password is already hashed
     public void setPassword(String password) {
         if (isAlreadyHashed(password)) {
-            this.password = password;  // Assume it's already hashed
+            this.password = password;
         } else {
             this.password = hashPassword(password);  // Hash if not already
         }

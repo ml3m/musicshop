@@ -16,6 +16,7 @@ public class SearchCriteria {
         this.itemType = itemType;
         this.inStock = inStock;
     }
+
     public String getKeyword() { return keyword; }
     public Double getMinPrice() { return minPrice; }
     public Double getMaxPrice() { return maxPrice; }

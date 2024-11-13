@@ -27,7 +27,6 @@ public class Album extends MusicItem {
     public String getType() { return type; }
     public String getArtist() { return artist; }
     public int getYear() { return year; }
-
     @Override
     public String toString() { return super.toString() + ", Artist: " + artist + ", Year: " + year; }
 }
