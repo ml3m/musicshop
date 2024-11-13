@@ -279,6 +279,7 @@ public class MainMenu {
         }
     }
 
+    // input validation getUserChoice()
     private int getUserChoice() {
         while (true) {
             try {
@@ -345,7 +346,7 @@ public class MainMenu {
                 case 3 -> {
                     System.out.print("Enter new quantity: ");
                     try {
-                        int newQuantity = scanner.nextInt();
+                        int newQuantity = getUserChoice();
                         scanner.nextLine(); // Consume newline
                         if (newQuantity > 0) {
                             item.setQuantity(newQuantity);
@@ -423,9 +424,8 @@ public class MainMenu {
                 System.out.print("Enter Album artist: ");
                 String artist = scanner.nextLine();
                 System.out.print("Enter Album release year: ");
-                int releaseYear = scanner.nextInt();
+                int releaseYear = getUserChoice();
                 scanner.nextLine();  // Consume newline
-                //System.out.print("Enter Album type (e.g., Vinyl, CD): ");
 
                 MusicItem album = new Album(name, price, artist, releaseYear, type_selected_jsonID, 1, barcode);
                 musicService.addItem(album);
@@ -821,4 +821,5 @@ public class MainMenu {
                     " - Hours: " + duration.toHours() +
                     " Minutes: " + duration.toMinutesPart());
         });
-    } }
+    } 
+}
