@@ -25,15 +25,15 @@
   "type" : "album",
   "year" : 1968
 }, {
-  "name" : "Double Bass",
+  "name" : "Double Bass Guitar",
   "price" : 380.0,
   "quantity" : 1,
   "barcode" : "dd8ad9f7-d3f6-4d39-979b-d26756ae7b10",
   "type" : "instrument"
 }, {
   "name" : "Clarinet",
-  "price" : 130.0,
-  "quantity" : 1,
+  "price" : 150.0,
+  "quantity" : 2,
   "barcode" : "d68f95a3-bc1c-4dfe-9278-d2baf08c71e0",
   "type" : "instrument"
 }, {

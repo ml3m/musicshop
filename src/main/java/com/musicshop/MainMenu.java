@@ -10,6 +10,7 @@ import com.musicshop.models.user.Customer;
 import com.musicshop.models.user.User;
 import com.musicshop.models.user.UserRole;
 import com.musicshop.exceptions.*;
+import com.musicshop.models.user.WorkLog;
 import com.musicshop.services.analytics_dashboard.AnalyticsService;
 import com.musicshop.services.analytics_dashboard.ReportExportService;
 import com.musicshop.services.inventory.InventoryService;
@@ -25,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.io.Console;
+import java.util.stream.Collectors;
 
 public class MainMenu {
     private final MusicService musicService;
@@ -548,7 +550,7 @@ public class MainMenu {
         System.out.println("2. View System Stats");
         System.out.println("3. View Inventory");
         System.out.println("4. Generate Reports");
-        System.out.println("5. View All Work Logs");
+        System.out.println("5. View Users Work Hours");
         System.out.println("0. Logout");
 
         int choice = getUserChoice();
@@ -626,7 +628,7 @@ public class MainMenu {
         switch (choice) {
             case 1 -> {
                 List<User> users = userService.getAllUsers();
-                users.forEach(System.out::println);
+                users.forEach(user -> System.out.println(user));  // Now this will print using the formatted toString
             }
             case 2 -> addNewUser();
             case 3 -> modifyUser();
@@ -736,10 +738,14 @@ public class MainMenu {
         SalesReport report = analyticsService.generateSalesReport(
                 LocalDateTime.now().minusMonths(1),
                 LocalDateTime.now()
-                );
+        );
         System.out.println("\n=== Top Selling Items ===");
-        report.getTopSellingItems().forEach((item, quantity) ->
-                System.out.println(item + ": " + quantity + " units"));
+
+        // Sort items by quantity in descending order and print
+        report.getTopSellingItems().entrySet()
+                .stream()
+                .sorted((entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()))  // Sort in descending order
+                .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue() + " units"));
     }
 
     private void exportReports() {
@@ -801,15 +807,92 @@ public class MainMenu {
         System.out.println("\n=== Generate Reports ===");
         System.out.println("1. User Activity Report");
         System.out.println("2. Inventory Report");
-        System.out.println("3. Sales Report");
 
         int choice = getUserChoice();
         switch (choice) {
-            case 1 -> System.out.println("Generating User Activity Report...");
-            case 2 -> System.out.println("Generating Inventory Report...");
-            case 3 -> System.out.println("Generating Sales Report...");
+            case 1 -> generateUserActivityReport();
+            case 2 -> generateInventoryReport();
                 default -> System.out.println("Invalid option selected.");
         }
+    }
+
+    private void generateUserActivityReport() {
+        // Get all work logs as a Map of userId -> Duration
+        Map<String, java.time.Duration> allWorkLogs = workLogService.getAllWorkLogs();
+
+        // Print header
+        System.out.println("\n=== User Activity Report ===");
+
+        // Iterate over all work logs (userId -> Duration)
+        allWorkLogs.forEach((userId, totalDuration) -> {
+            // Fetch user details
+            Optional<User> user = userService.findById(userId);
+
+            // Calculate the total hours, minutes, and seconds
+            long totalSeconds = totalDuration.getSeconds();
+            long hours = totalSeconds / 3600;
+            long minutes = (totalSeconds % 3600) / 60;
+            long seconds = totalSeconds % 60;
+
+            // Calculate how many times this user has worked (in terms of check-ins)
+            long workSessions = allWorkLogs.keySet().stream()
+                    .filter(userId::equals)  // Filter for this userId
+                    .count();
+
+            // Print the user info
+            System.out.println("User: " + (user.isPresent() ? user.get().getUsername() : "Unknown"));
+            System.out.println("Times Served: " + workSessions);
+            System.out.printf("Total Duration: %02d Hours %02d Minutes %02d Seconds%n", hours, minutes, seconds);
+            System.out.println("-----------");
+        });
+    }
+
+    private void generateInventoryReport() {
+        // Get the list of orders from the order service
+        List<Order> orders = orderService.getAllOrders();
+
+        // Create a map to hold the sold quantities by item name
+        Map<String, Long> soldItems = new HashMap<>();
+
+        // Calculate the sold quantities from orders
+        orders.forEach(order -> {
+            order.getCartItems().forEach(item -> {
+                String itemName = item.getName();
+                int quantitySold = item.getQuantity(); // Get the sold quantity directly from the MusicItem
+
+                // Update the sold quantities for each item
+                soldItems.put(itemName, soldItems.getOrDefault(itemName, 0L) + quantitySold);
+            });
+        });
+
+        // Get the list of items in the inventory (list of MusicItem objects)
+        List<MusicItem> items = inventoryService.getItems();
+
+        // Print the report
+        System.out.println("\n=== Inventory Report ===");
+
+        // Print Sold Items
+        System.out.println("\n--- Sold Items ---");
+        soldItems.forEach((item, quantity) -> {
+            System.out.println(item + ": " + quantity + " units sold");
+        });
+
+        // Print Inventory Items
+        System.out.println("\n--- Inventory Items ---");
+        items.forEach(item -> {
+            System.out.println(item.getName() + ": " + item.getQuantity() + " units in stock");
+        });
+
+        // Calculate remaining inventory (subtract sold from inventory)
+        System.out.println("\n--- Remaining Inventory ---");
+        items.forEach(item -> {
+            String itemName = item.getName();
+            int stockQuantity = item.getQuantity();
+            long soldQuantity = soldItems.getOrDefault(itemName, 0L);
+            long remainingQuantity = stockQuantity - soldQuantity;
+
+            System.out.println(itemName + ": " + remainingQuantity + " units remaining");
+        });
     }
 
     private void viewAllWorkLogs() {

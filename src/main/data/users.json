@@ -48,20 +48,6 @@
   "active" : true,
   "lastLogin" : "2024-11-11T11:18:25.956032"
 }, {
-  "id" : "0880809f-1bc7-49e2-be2e-dc2b45809569",
-  "username" : "mlema",
-  "password" : "$2a$10$cH04Y6kl2WDqB.3G57a9M.oFzk9dXip7D.9toksxW1ZaARxhQ7g5.",
-  "role" : "ACCOUNTANT",
-  "active" : true,
-  "lastLogin" : "2024-11-13T00:09:16.152968"
-}, {
-  "id" : "1b988a50-6f5d-4811-8bb4-af3b60fab917",
-  "username" : "lol",
-  "password" : "$2a$10$FpvDdTV.mlecR7/3pdrfxuMoxHuNmfxdkMyKFyspwN93zF3QmNKfm",
-  "role" : "ADMIN",
-  "active" : true,
-  "lastLogin" : "2024-11-13T01:04:58.787896"
-}, {
   "id" : "e466c68b-e405-4e42-a860-9f21b516d6a5",
   "username" : "",
   "password" : "$2a$10$K8rms9ZsZ/nj6UbJ/LezpO41DpEzqAFkO.wZnLfQ/7PSQGgDgy85m",
@@ -81,5 +67,19 @@
   "password" : "$2a$10$PjC6Wfh4Ty36mILuYl4A0.zl4idKrcWQI3F6u3rZRFUec8p7WOJbq",
   "role" : "SHOP_EMPLOYEE",
   "active" : true,
-  "lastLogin" : "2024-11-13T01:34:10.235025"
+  "lastLogin" : "2024-11-13T02:23:55.972499"
+}, {
+  "id" : "0880809f-1bc7-49e2-be2e-dc2b45809569",
+  "username" : "mlema",
+  "password" : "$2a$10$cH04Y6kl2WDqB.3G57a9M.oFzk9dXip7D.9toksxW1ZaARxhQ7g5.",
+  "role" : "ACCOUNTANT",
+  "active" : true,
+  "lastLogin" : "2024-11-13T02:26:39.425625"
+}, {
+  "id" : "1b988a50-6f5d-4811-8bb4-af3b60fab917",
+  "username" : "lol",
+  "password" : "$2a$10$FpvDdTV.mlecR7/3pdrfxuMoxHuNmfxdkMyKFyspwN93zF3QmNKfm",
+  "role" : "ADMIN",
+  "active" : true,
+  "lastLogin" : "2024-11-13T02:49:15.139728"
 } ]

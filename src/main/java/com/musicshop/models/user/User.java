@@ -62,4 +62,10 @@ public class User {
     public void setActive(boolean active) { this.active = active; }
     public LocalDateTime getLastLogin() { return lastLogin; }
     public void setLastLogin(LocalDateTime lastLogin) { this.lastLogin = lastLogin; }
+
+    @Override
+    public String toString() {
+        return String.format("User ID: %s\nUsername: %s\nRole: %s\nActive: %b\nLast Login: %s \n-----------------------------------\n",
+                id, username, role != null ? role.toString() : "N/A", active, lastLogin != null ? lastLogin.toString() : "N/A");
+    }
 }
