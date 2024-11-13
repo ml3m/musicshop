@@ -15,7 +15,7 @@ public class Config {
                 properties.load(input);
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         }
 
